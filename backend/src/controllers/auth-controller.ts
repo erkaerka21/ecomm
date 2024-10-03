@@ -2,11 +2,10 @@ import { Request, Response } from "express";
 import User from "../models/user.model";
 import bcrypt from "bcrypt";
 import jsonWebToken from "jsonwebtoken";
-import GenerateEmail from "../utils/generateEmail";
-import nodemailer from "nodemailer";
+
 import { generateToken } from "../utils/jsonwebtoken";
 import SendToEmail from "../utils/sendtoEmail";
-
+import crypto from "crypto";
 export const signUp = async (req: Request, res: Response) => {
   const { firstname, lastname, email, password, phoneNumber } = req.body;
   try {
@@ -31,7 +30,7 @@ export const signUp = async (req: Request, res: Response) => {
 
 export const signIn = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  console.log(req.body);
+  console.log("email bolon password iig harah", req.body);
   try {
     if (!email || !password) {
       return res.status(400).json({ message: "hooson yum bhgui" });
@@ -55,7 +54,11 @@ export const signIn = async (req: Request, res: Response) => {
           .json({ message: "нэвтрэх цахим шуудан эсвэл нууц үг буруу байна." });
       } else {
         const token = generateToken({ id: signInUser._id });
-        res.status(200).json({ message: "Та амжилттай нэвтэрч байна", token });
+        console.log("signinii tokeniig harah", token);
+        res.status(200).json({
+          message: "Та амжилттай нэвтэрч байна",
+          token,
+        });
       }
     }
   } catch (error) {
@@ -66,39 +69,109 @@ export const signIn = async (req: Request, res: Response) => {
 };
 
 export const CurrentUser = async (req: Request, res: Response) => {
+  // const { firstname, lastname, email } = req.body;
   const { id } = req.user;
   const findCurrentU = await User.findById(id);
-  res
-    .status(200)
-    .json({ message: "current useriig oloh amjilttai", user: findCurrentU });
+  // const getCurrentUser = await User.findOne({});
+  res.status(200).json({
+    message: "current useriig oloh amjilttai",
+    user: findCurrentU,
+  });
 };
 
 export const forgetPassword = async (req: Request, res: Response) => {
   const { email } = req.body;
+  console.log("emailiig harah:", req.body);
+  if (!email) {
+    return res
+      .status(400)
+      .json({ message: "Цахим шуудангийн хаягыг заавал бөглөнө үү" });
+  }
+
   try {
-    if (!email) {
-      return res
-        .status(400)
-        .json({ message: "цахим шуудангийн хаягыг заавал оруулна уу" });
-    }
     const forgetUserPassword = await User.findOne({ email: email });
+
     if (!forgetUserPassword) {
       return res
         .status(400)
         .json({ message: "бүртгэлтэй цахим шуудангийн хаяг олдсонгүй." });
-    } else {
-      const randomOTPcode = Math.floor(Math.random() * 10_000)
-        .toString()
-        .padStart(4, "0");
-      forgetUserPassword.randomOTPcode = randomOTPcode;
-      await forgetUserPassword.save();
-      await SendToEmail("erka_pro21@yahoo.com", randomOTPcode);
-
-      res.send("Бүртгэлтэй цахим шуудан руу кодыг амжилттай илгээлээ.");
     }
+    const randomOTPcode = Math.floor(Math.random() * 10_000)
+      .toString()
+      .padStart(4, "0");
+    forgetUserPassword.randomOTPcode = randomOTPcode;
+    await forgetUserPassword.save();
+    await SendToEmail(randomOTPcode);
+    res.status(200).json({
+      message: "Бүртгэлтэй цахим шуудан руу кодыг амжилттай илгээлээ.",
+    });
   } catch (error) {
+    console.error(error);
     res.status(400).json({
       message: "Цахим шуудан руу код илгээхэд ямар нэгэн алдаа гарлаа",
     });
   }
+};
+
+export const verifyRandomOtpCode = async (req: Request, res: Response) => {
+  const { email, randomOTPcode } = req.body;
+  console.log("randomItp", randomOTPcode);
+  const findVerifyUser = await User.findOne({
+    email: email,
+    randomOTPcode: randomOTPcode,
+  });
+  if (!findVerifyUser) {
+    return res.status(400).json({
+      message: "бүртгэлтэй хэрэглэгч эсвэл нэг удаагийн код олдсонгүй",
+    });
+  }
+
+  const resetTokenCode = crypto.randomBytes(25).toString("hex");
+  const hashResetTokenCode = crypto
+    .createHash("sha256")
+    .update(resetTokenCode)
+    .digest("hex");
+  findVerifyUser.passwordResetToken = hashResetTokenCode;
+  findVerifyUser.passwordResetTokenExp = new Date(Date.now() + 10 * 60 * 1000);
+  await findVerifyUser.save();
+
+  await SendToEmail(
+    `<a href="http://localhost:3000/forgetpassword/passwordrecovery?resettokencode=${resetTokenCode}&email=${email}">Нууц үг сэргээх холбоос</a>`
+  );
+  res.status(200).json({
+    message:
+      "бүртгэлтэй цахим шуудангийн хаяг руу нууц үг сэргээх холбоосыг илгээсэн.",
+  });
+};
+
+export const recreatePassword = async (req: Request, res: Response) => {
+  const { password, resetTokenCode } = req.body;
+
+  const hashResetTokenCode = crypto
+    .createHash("sha256")
+    .update(resetTokenCode)
+    .digest("hex");
+  const findUserVerify = await User.findOne({
+    passwordResetToken: hashResetTokenCode,
+    passwordResetTokenExp: { $gt: Date.now() },
+  });
+
+  if (!findUserVerify) {
+    return res.status(400).json({
+      message: "Нэг удаагийн нууц кодын хүчинтэй хугацаа дууссан байна.",
+    });
+  }
+
+  findUserVerify.password = password;
+  await findUserVerify.save();
+  res.status(200).json({ message: "Та нууц үгээ амжилттай сэргээлээ." });
+};
+
+export const saveAndUpdateUser = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const updateUser = await User.findByIdAndUpdate(id, req.body, { new: true });
+  res.status(200).json({
+    message: "Хэрэглэгчийн мэдээллийг амжилттай хадгалсан.",
+    updateUser,
+  });
 };

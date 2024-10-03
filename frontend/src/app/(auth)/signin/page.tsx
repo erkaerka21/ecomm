@@ -22,13 +22,17 @@ const Signin = () => {
   const signIn = async () => {
     const { email, password } = userData;
     try {
-      const response = await axios.post(`${uRL_AUTH_api}/signin`, {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:9000/api/v1/auth/signin",
+        {
+          email: email,
+          password: password,
+        }
+      );
       if (response.status === 200) {
         toast({ description: "Та амжилттай нэвтэрлээ" });
         const { token } = response.data;
+        console.log("login token iig harah", response.data);
         localStorage.setItem("token", token);
         router.push("/categories");
       }
@@ -45,6 +49,8 @@ const Signin = () => {
       });
     }
   };
+  console.log("signinii user datanuudiig harah", userData);
+
   return (
     <div className="flex justify-center">
       <div className="w-[30vw] my-[18vh]">
@@ -86,7 +92,7 @@ const Signin = () => {
             >
               Нэвтрэх
             </Button>
-            <Link href="/forgetpassword">
+            <Link href="/forgetpassword/enter-email">
               <p className="text-gray-500 underline">Нууц үг мартсан</p>
             </Link>
 

@@ -1,5 +1,6 @@
 import jsonwebtoken from "jsonwebtoken";
-
+import dotenv from "dotenv";
+dotenv.config();
 export const generateToken = (payload: object) => {
   return jsonwebtoken.sign(payload, process.env.JSON_WEB_TOKEN_PASSWORD || "", {
     expiresIn: "7d",

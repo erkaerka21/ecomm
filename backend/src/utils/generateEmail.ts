@@ -1,6 +1,4 @@
-import React from "react";
-
-const GenerateEmail = (OTPcode: string) => {
+const GenerateEmail = (randomOTPcode: string) => {
   return `<div>
       <div style="overflow: auto;">
         <div style="margin: 50px auto; width: 70%; padding: 20px 0;">
@@ -23,7 +21,7 @@ const GenerateEmail = (OTPcode: string) => {
         border-radius: 4px;
       "
           >
-            ${OTPcode}
+            ${randomOTPcode}
           </h2>
           <p style="margin: 0 auto; width: max-content; padding: 0 10px;">
             энэхүү код нь 5 мин хүчинтэй болно.
