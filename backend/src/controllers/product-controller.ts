@@ -1,14 +1,28 @@
 import { Request, Response } from "express";
 import { Products } from "../models/products.model";
 export const createProduct = async (req: Request, res: Response) => {
-  const { name, description, price, quantity, category } = req.body;
+  const {
+    name,
+    description,
+    size,
+    price,
+    discount,
+    quantity,
+    category,
+    images,
+    isNew,
+  } = req.body;
   try {
     const createProduct = await Products.create({
       name,
       description,
+      size,
       price,
+      discount,
       quantity,
       category,
+      images,
+      isNew,
     });
     res
       .status(201)
