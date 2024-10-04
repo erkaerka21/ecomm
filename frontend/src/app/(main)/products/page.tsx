@@ -27,12 +27,12 @@ const Products = () => {
         <img src="/zurag1.png" />
         hfhfhf
       </div>
-      <div className="grid grid-cols-4 px-12 gap-x-3 gap-y-7 my-4">
+      <div className="grid grid-cols-4 px-12 gap-x-6 gap-y-12 my-4">
         {allProduct.map((product) => (
           <ProductCart
             name={product.name}
             price={product.price}
-            image={product.image}
+            images={product.images}
           />
         ))}
       </div>

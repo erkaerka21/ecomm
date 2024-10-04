@@ -14,7 +14,7 @@ const Header = () => {
   console.log("nevtersen useriig harah:", user);
   return (
     <div className="bg-black flex flex-row justify-between items-center px-6 py-3">
-      <div className="text-white flex flex-row gap-x-7">
+      <div className="text-white flex flex-row gap-x-7 items-center">
         <Link href="/">
           <div className="flex flex-row items-center gap-x-1">
             <img src="/pinelogo.png" className="h-[4vh]" />
@@ -26,10 +26,10 @@ const Header = () => {
         </Link>
       </div>
 
-      <label className="relative">
-        <IoSearch className="h-[4vh] text-white absolute left-2 bottom-[0.005px]"></IoSearch>
+      <label className="relative flex flex-row items-center">
+        <IoSearch className="h-[4vh] text-white absolute left-2"></IoSearch>
         <Input
-          className="placeholder-gray-200 bg-gray-700"
+          className="placeholder-gray-200 bg-gray-700 text-white"
           placeholder="Бүтээгдэхүүн хайх"
         />
       </label>
