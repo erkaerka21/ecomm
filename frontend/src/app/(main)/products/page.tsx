@@ -3,9 +3,10 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import React, { useEffect, useState } from "react";
 import ProductCart from "@/app/components/product-cart";
 import axios from "axios";
+import Link from "next/link";
 
 const Products = () => {
-  type Product = { name: string; price: number; image: string };
+  type Product = any;
   const [allProduct, setAllProduct] = useState<Product>([]);
   const getAllProduct = async () => {
     try {
@@ -28,12 +29,14 @@ const Products = () => {
         hfhfhf
       </div>
       <div className="grid grid-cols-4 px-12 gap-x-6 gap-y-12 my-4">
-        {allProduct.map((product) => (
-          <ProductCart
-            name={product.name}
-            price={product.price}
-            images={product.images}
-          />
+        {allProduct.map((product: any) => (
+          <Link href={`/detailproduct/${product._id}`} key={product._id}>
+            <ProductCart
+              name={product.name}
+              price={product.price}
+              image={product.images[0]}
+            />
+          </Link>
         ))}
       </div>
     </div>

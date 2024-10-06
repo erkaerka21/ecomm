@@ -43,10 +43,10 @@ export const getAllProduct = async (req: Request, res: Response) => {
   }
 };
 export const getOneProduct = async (req: Request, res: Response) => {
-  const { pid } = req.params;
+  const { id } = req.params;
 
   try {
-    const getOneProduct = await Products.findById(pid).populate("category");
+    const getOneProduct = await Products.findById(id).populate("category");
     res
       .status(200)
       .json({ message: "get only product is success", getOneProduct });

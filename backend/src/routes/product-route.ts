@@ -9,5 +9,5 @@ const router = Router();
 
 router.route("/add").post(createProduct);
 router.route("/all").get(getAllProduct);
-router.route("/:pid").get(getOneProduct);
+router.route("/:id").get(getOneProduct);
 export default router;

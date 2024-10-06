@@ -7,26 +7,24 @@ import Link from "next/link";
 const ProductCart = ({
   name,
   price,
-  images,
+  image,
 }: {
   name: string;
   price: number;
-  images: [string];
+  image: string;
 }) => {
   return (
     <div>
-      <Link href="">
-        <Card className="border-gray-400 border">
-          <CardContent className="relative">
-            <Heart className="absolute top-[2vh] right-[1.5vw]" />
-            <img src={images[0]} className="rounded-lg h-[60vh] object-cover" />
-          </CardContent>
-          <CardFooter className="flex flex-col">
-            <h1>{name}</h1>
-            <h1>{price}</h1>
-          </CardFooter>
-        </Card>
-      </Link>
+      <Card className="border-gray-400 border">
+        <CardContent className="relative">
+          <Heart className="absolute top-[2vh] right-[1.5vw]" />
+          <img src={image} className="rounded-lg h-[60vh] object-cover" />
+        </CardContent>
+        <CardFooter className="flex flex-col">
+          <h1>{name}</h1>
+          <h1>{price}</h1>
+        </CardFooter>
+      </Card>
     </div>
   );
 };
