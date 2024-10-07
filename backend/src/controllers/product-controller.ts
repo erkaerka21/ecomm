@@ -47,9 +47,14 @@ export const getOneProduct = async (req: Request, res: Response) => {
 
   try {
     const getOneProduct = await Products.findById(id).populate("category");
-    res
-      .status(200)
-      .json({ message: "get only product is success", getOneProduct });
+    const relatedProduct = await Products.find({
+      category: getOneProduct?.category,
+    });
+    res.status(200).json({
+      message: "get only product is success",
+      getOneProduct,
+      relatedProduct,
+    });
   } catch (error) {
     console.error("get one products is not success", error);
   }

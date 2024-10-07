@@ -7,6 +7,7 @@ import { Heart } from "lucide-react";
 import { CiCirclePlus } from "react-icons/ci";
 import { CiCircleMinus } from "react-icons/ci";
 import { Button } from "@/components/ui/button";
+import ProductCart from "@/app/components/product-cart";
 export default function DetailProductPage() {
   const [size, setSize] = useState(["XS", "S", "M", "L", "XL", "XXL"]);
   // const params = useParams();
@@ -23,6 +24,7 @@ export default function DetailProductPage() {
     size: "",
     discount: 0,
   });
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const getDiscountedPrice = (price: number, discount: number) => {
     return price - (price * discount) / 100;
   };
@@ -32,16 +34,13 @@ export default function DetailProductPage() {
         `http://localhost:9000/api/v1/products/${params.id}`
       );
       setProductDetail(response.data.getOneProduct);
+      setRelatedProducts(response.data.relatedProduct);
       console.log("tatah datag harag", response.data);
     } catch (error) {
       console.error("fetching products detail page is wrong", error);
     }
   };
-  // const highlightSize = (size: string, sizeP: string) => {
-  //   if (setSize === sizeP) {
-  //     return;
-  //   }
-  // };
+
   useEffect(() => {
     getProductPage();
   }, []);
@@ -78,10 +77,7 @@ export default function DetailProductPage() {
           </div>
           <p>{productDetail.description}</p>
           <div>
-            <p className="flex flex-row">
-              <p className="border border-blue-400 bg-blue-400 w-2"></p>
-              -Тус барааны үлдэгдэлтэй бэлэн байгаа хэмжээ
-            </p>
+            <p className="flex flex-row">Хэмжээний заавар</p>
 
             <div className="flex flex-row">
               {size.map((size) => (
@@ -116,6 +112,15 @@ export default function DetailProductPage() {
       </div>
       <div>
         <h1 className="font-extrabold">Холбоотой бараа</h1>
+        <div className="grid grid-cols-4 px-12 gap-x-6 gap-y-12 my-4">
+          {relatedProducts.map((relatedProduct: any) => (
+            <ProductCart
+              name={relatedProduct.name}
+              price={relatedProduct.price}
+              image={relatedProduct.images[0]}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
