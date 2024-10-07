@@ -10,6 +10,7 @@ interface UProducts {
   quantity: number;
   discount: number;
   category: Schema.Types.ObjectId;
+  review: Schema.Types.ObjectId;
 }
 const productsSchema = new Schema<UProducts>(
   {
@@ -18,7 +19,7 @@ const productsSchema = new Schema<UProducts>(
     description: { type: String, required: true },
     size: {
       type: String,
-      enum: ["S", "M", "L", "XL", "XXL", "XS"],
+      enum: ["XS", "S", "M", "L", "XL", "XXL"],
       default: "S",
     },
     images: { type: [String], default: ["zurag"] },
@@ -26,6 +27,7 @@ const productsSchema = new Schema<UProducts>(
     quantity: { type: Number, required: true },
     discount: { type: Number, default: 0 },
     category: { type: Schema.Types.ObjectId, required: true, ref: "Category" },
+    review: { type: Schema.Types.ObjectId, ref: "Review" },
   },
   { timestamps: true }
 );
