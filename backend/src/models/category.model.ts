@@ -1,5 +1,4 @@
 import { model, Model, Schema } from "mongoose";
-import React from "react";
 
 interface PCategory {
   name: string;

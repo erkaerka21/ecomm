@@ -56,7 +56,7 @@ export default function DetailProductPage() {
           ))}
         </div>
         <div>
-          <img src={productDetail.images[0]} className="rounded-2xl h-[75vh]" />
+          <img src={productDetail.images[0]} className="rounded-2xl h-[80vh]" />
         </div>
         <div>
           <div>
@@ -111,7 +111,7 @@ export default function DetailProductPage() {
         </div>
       </div>
       <div>
-        <h1 className="font-extrabold">Холбоотой бараа</h1>
+        <h1 className="font-extrabold text-6xl">Холбоотой бараа</h1>
         <div className="grid grid-cols-4 px-12 gap-x-6 gap-y-12 my-4">
           {relatedProducts.map((relatedProduct: any) => (
             <ProductCart
