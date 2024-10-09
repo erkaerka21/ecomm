@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import Cart from "../models/cart.model";
-import User from "../models/user.model";
 
-export const createCart = async (req: Request, res: Response) => {
+export const createAndAddCart = async (req: Request, res: Response) => {
   const { userId, productId, quantity, totalAmount } = req.body;
   try {
     const findUserCart = await Cart.findOne({ user: userId });

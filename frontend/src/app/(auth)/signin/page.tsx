@@ -85,7 +85,7 @@ const Signin = () => {
               </div>
             </form>
           </CardContent>
-          <CardFooter className="flex-col space-y-5">
+          <CardFooter className="flex-col space-y-2">
             <Button
               className=" bg-blue-600 rounded-2xl w-full"
               onClick={signIn}

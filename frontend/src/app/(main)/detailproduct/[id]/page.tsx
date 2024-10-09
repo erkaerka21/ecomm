@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import ProductCart from "@/app/components/product-cart";
 export default function DetailProductPage() {
   const [size, setSize] = useState(["XS", "S", "M", "L", "XL", "XXL"]);
+  const [choosedSize, setChoosedSize] = useState("");
+  const [quantity, setQuantity] = useState(1);
   // const params = useParams();
   // console.log(params, "params info iig harah");
   // const { id }: { id: string } = useParams();
@@ -40,7 +42,15 @@ export default function DetailProductPage() {
       console.error("fetching products detail page is wrong", error);
     }
   };
-
+  const createAndAddtoCart = async () => {
+    try {
+      const respo = await axios.post(`http://localhost:9000/api/v1/cart`, {
+        userId: "",
+        productId: params.id,
+        quantity: quantity,
+      });
+    } catch {}
+  };
   useEffect(() => {
     getProductPage();
   }, []);
@@ -84,8 +94,10 @@ export default function DetailProductPage() {
                 <p
                   className={`border-2 rounded-full p-2 ${
                     productDetail.size === size &&
-                    `bg-blue-400 text-white border-blue-400`
+                    `bg-slate-200 text-white border-slate-200`
                   }`}
+                  id={size}
+                  // onClick={}
                 >
                   {size}
                 </p>
@@ -93,9 +105,9 @@ export default function DetailProductPage() {
             </div>
           </div>
           <div className="flex flex-row items-center">
-            <CiCircleMinus />
-            1
-            <CiCirclePlus />
+            <CiCircleMinus onClick={() => setQuantity(quantity - 1)} />
+            {quantity}
+            <CiCirclePlus onClick={() => setQuantity(quantity + 1)} />
           </div>
           <div>
             {getDiscountedPrice(productDetail.price, productDetail.discount)}₮

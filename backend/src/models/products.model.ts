@@ -31,4 +31,4 @@ const productsSchema = new Schema<UProducts>(
   },
   { timestamps: true }
 );
-export const Products = model("Products", productsSchema);
+export const Products = model<UProducts>("Products", productsSchema);

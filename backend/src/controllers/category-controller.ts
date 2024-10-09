@@ -12,3 +12,14 @@ export const addCategory = async (req: Request, res: Response) => {
     console.error("категорийг бүртгэхэд ямар нэгэн алдаа гарлаа.", addCategory);
   }
 };
+
+export const getCategory = async (req: Request, res: Response) => {
+  try {
+    const getAllCategory = await Category.find({});
+    res
+      .status(200)
+      .json({ message: "get all gategory amjilttai", getAllCategory });
+  } catch (error) {
+    console.error("get all products is not success", error);
+  }
+};

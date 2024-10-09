@@ -5,6 +5,7 @@ import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface UserI {
+  _id: string;
   firstname: string;
   lastname: string;
   email: string;
@@ -13,11 +14,13 @@ interface UserI {
 interface ContextI {
   user: UserI | null;
   setUser: React.Dispatch<React.SetStateAction<UserI | null>>;
+  fetchUser: object;
 }
 
 export const UserContext = createContext<ContextI>({
   user: null,
   setUser: () => {},
+  fetchUser: () => {},
 });
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
@@ -42,7 +45,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }, [user]);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, fetchUser }}>
       {children}
     </UserContext.Provider>
   );

@@ -23,5 +23,5 @@ const cartSchema = new Schema<ICart>(
   },
   { timestamps: true }
 );
-const Cart = model("Cart", cartSchema);
+const Cart = model<ICart>("Cart", cartSchema);
 export default Cart;

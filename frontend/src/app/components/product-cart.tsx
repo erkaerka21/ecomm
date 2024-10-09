@@ -18,7 +18,10 @@ const ProductCart = ({
       <Card className="border-gray-400 border">
         <CardContent className="relative">
           <Heart className="absolute top-[2vh] right-[1.5vw]" />
-          <img src={image} className="rounded-lg h-[60vh] object-cover" />
+          <img
+            src={image}
+            className="rounded-lg h-[60vh] w-full object-cover"
+          />
         </CardContent>
         <CardFooter className="flex flex-col">
           <h1>{name}</h1>

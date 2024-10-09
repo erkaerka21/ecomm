@@ -12,4 +12,4 @@ const categorySchema = new Schema<PCategory>(
   },
   { timestamps: true }
 );
-export const Category = model("Category", categorySchema);
+export const Category = model<PCategory>("Category", categorySchema);
