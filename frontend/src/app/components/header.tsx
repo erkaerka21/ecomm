@@ -36,7 +36,9 @@ const Header = () => {
 
       <div className="flex flex-row items-center gap-x-5">
         <FaHeart className="text-white" />
-        <FaShoppingCart className="text-white" />
+        <Link href={`/shoppingcart/`}>
+          <FaShoppingCart className="text-white" />
+        </Link>
         {!user && (
           <div className="flex flex-row gap-x-2">
             <Link href="/signup">
@@ -51,7 +53,7 @@ const Header = () => {
         )}
         {user && (
           <div className="flex flex-row gap-x-2">
-            <FaRegUser />
+            <FaRegUser className="text-white text-xl" />
           </div>
         )}
       </div>

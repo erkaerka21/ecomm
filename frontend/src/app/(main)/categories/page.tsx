@@ -6,6 +6,7 @@ import Link from "next/link";
 import ProductCart from "@/app/components/product-cart";
 
 const Categories = () => {
+  const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
   type categories = any;
   const [getCategories, setGetCategories] = useState<categories>([]);
   const getAllCategory = async () => {
@@ -40,15 +41,25 @@ const Categories = () => {
       <div>
         <div>
           <h1>Ангилал</h1>
-          {getCategories.map((category: any) => (
-            <div className="min-w-fit">
-              <Checkbox />
-              {category.name}
-            </div>
-          ))}
+          <div>
+            {getCategories.map((category: any) => (
+              <div className="min-w-fit">
+                <Checkbox />
+                {category.name}
+              </div>
+            ))}
+          </div>
         </div>
         <div>
           <h1>Хэмжээ</h1>
+          <div>
+            {sizes.map((size) => (
+              <div>
+                <Checkbox />
+                {size}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <div>

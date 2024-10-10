@@ -8,7 +8,12 @@ import { CiCirclePlus } from "react-icons/ci";
 import { CiCircleMinus } from "react-icons/ci";
 import { Button } from "@/components/ui/button";
 import ProductCart from "@/app/components/product-cart";
+import { useUser } from "@/app/provider/user-provider";
+import { useToast } from "@/hooks/use-toast";
+
 export default function DetailProductPage() {
+  const { toast } = useToast();
+  const { user } = useUser();
   const [size, setSize] = useState(["XS", "S", "M", "L", "XL", "XXL"]);
   const [choosedSize, setChoosedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -17,6 +22,7 @@ export default function DetailProductPage() {
   // const { id }: { id: string } = useParams();
   // console.log("url iin id iig harah", id);
   const params = useParams();
+  const productId = params.id;
   const [productDetail, setProductDetail] = useState({
     name: "",
     price: 0,
@@ -42,18 +48,35 @@ export default function DetailProductPage() {
       console.error("fetching products detail page is wrong", error);
     }
   };
+  // const [intoCartData, setIntoCartData] = useState({});
   const createAndAddtoCart = async () => {
     try {
       const respo = await axios.post(`http://localhost:9000/api/v1/cart`, {
-        userId: "",
-        productId: params.id,
+        userId: user?._id,
+        productId: productId,
         quantity: quantity,
+        size: choosedSize,
       });
-    } catch {}
+      if (respo.status === 200) {
+        return toast({
+          description: "Та бүтээгдэхүүнээ амжилттай сагслаллаа.",
+        });
+      }
+      // console.log("хэрэгтэй зүйлсийг харах : ", );
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        description: "бүтээгдэхүүн сагслахад ямар нэгэн алдаа гарлаа",
+      });
+      console.error("бүтээгдэхүүн сагслахад ямар нэгэн алдаа гарлаа", error);
+    }
   };
   useEffect(() => {
     getProductPage();
   }, []);
+  console.log("хувцасны сонгосон размер хэмжээг харах", choosedSize);
+  console.log("хувцасны сонгосон тоо хэмжээг харах", quantity);
+  console.log("хэрэглэгчийн айдиг харах", user?._id);
   return (
     <div className="px-24 py-16">
       <div className="flex flex-row">
@@ -92,12 +115,12 @@ export default function DetailProductPage() {
             <div className="flex flex-row">
               {size.map((size) => (
                 <p
-                  className={`border-2 rounded-full p-2 ${
+                  className={`border-2 rounded-full p-2 btn ${
                     productDetail.size === size &&
                     `bg-slate-200 text-white border-slate-200`
                   }`}
                   id={size}
-                  // onClick={}
+                  onClick={() => setChoosedSize(size)}
                 >
                   {size}
                 </p>
@@ -112,7 +135,12 @@ export default function DetailProductPage() {
           <div>
             {getDiscountedPrice(productDetail.price, productDetail.discount)}₮
           </div>
-          <Button className="bg-blue-600 h-8 rounded-2xl">Сагсанд нэмэх</Button>
+          <Button
+            className="bg-blue-600 h-8 rounded-2xl"
+            onClick={createAndAddtoCart}
+          >
+            Сагсанд нэмэх
+          </Button>
           <div
             className="
           flex flex-row"

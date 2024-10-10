@@ -75,7 +75,7 @@ export const CurrentUser = async (req: Request, res: Response) => {
   // const getCurrentUser = await User.findOne({});
   res.status(200).json({
     message: "current useriig oloh amjilttai",
-    user: findCurrentU,
+    findCurrentU,
   });
 };
 
