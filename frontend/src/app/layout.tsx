@@ -5,6 +5,7 @@ import Header from "./components/header";
 import Footer from "./components/footer";
 import { Toaster } from "@/components/ui/toaster";
 import UserProvider from "./provider/user-provider";
+import CardProvider from "./provider/card-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,10 +34,12 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <UserProvider>
-          <Header />
-          {children}
-          <Footer />
-          <Toaster />
+          <CardProvider>
+            <Header />
+            {children}
+            <Footer />
+            <Toaster />
+          </CardProvider>
         </UserProvider>
       </body>
     </html>

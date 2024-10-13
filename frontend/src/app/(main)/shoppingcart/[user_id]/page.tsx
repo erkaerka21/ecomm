@@ -1,5 +1,6 @@
 "use client";
 
+import { useMyCard } from "@/app/provider/card-provider";
 import {
   Card,
   CardContent,
@@ -7,19 +8,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import axios from "axios";
-import { useParams } from "next/navigation";
-import { useState } from "react";
 
 const ShoppingCart = () => {
-  const params = useParams();
-  type MyCard = any;
-  const [myCard, setMyCard] = useState<MyCard>([]);
-  const getMyCard = async () => {
-    try {
-      const response = await axios.get("");
-    } catch {}
-  };
+  const { myCard } = useMyCard();
+  console.log("mycard iig harah", myCard);
+
   return (
     <div>
       <Card>

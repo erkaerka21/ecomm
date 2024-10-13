@@ -37,9 +37,9 @@ export const createAndAddCart = async (req: Request, res: Response) => {
 };
 
 export const getUserCard = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { id } = req.user;
   try {
-    const getMyCard = await Cart.findById(id).populate("product");
+    const getMyCard = await Cart.findOne({ user: id });
     res.status(200).json({ message: "get my card successful", getMyCard });
   } catch (error) {
     res.status(400).json({ message: "something wrong with get my card" });
@@ -49,7 +49,7 @@ export const getUserCard = async (req: Request, res: Response) => {
 
 export const getAllCard = async (req: Request, res: Response) => {
   try {
-    const getAllCard = await Cart.find({}).populate("products");
+    const getAllCard = await Cart.find({});
 
     res.status(200).json({ message: "get all card successful", getAllCard });
   } catch (error) {

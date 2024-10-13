@@ -8,10 +8,23 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useUser } from "../provider/user-provider";
 import { FaRegUser } from "react-icons/fa";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { IoSettingsOutline } from "react-icons/io5";
+import { VscSignOut } from "react-icons/vsc";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 const Header = () => {
+  const router = useRouter();
+  const { toast } = useToast();
   const { user } = useUser();
   console.log("nevtersen useriig harah:", user);
+  const signOut = () => {
+    localStorage.removeItem("token");
+    toast({ description: "Хэрэглэгч та системээс амжилттай гарлаа." });
+    router.push("/");
+  };
   return (
     <div className="bg-black flex flex-row justify-between items-center px-6 py-3">
       <div className="text-white flex flex-row gap-x-7 items-center">
@@ -36,7 +49,7 @@ const Header = () => {
 
       <div className="flex flex-row items-center gap-x-5">
         <FaHeart className="text-white" />
-        <Link href={`/shoppingcart/`}>
+        <Link href={`/shoppingcart/${user?._id}`}>
           <FaShoppingCart className="text-white" />
         </Link>
         {!user && (
@@ -53,7 +66,43 @@ const Header = () => {
         )}
         {user && (
           <div className="flex flex-row gap-x-2">
-            <FaRegUser className="text-white text-xl" />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="bg-transparent">
+                  <FaRegUser className="text-white text-xl" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="w-1/4">
+                <Table>
+                  <TableBody className="">
+                    <TableRow className="">
+                      <TableCell className="font-bold">
+                        {user.firstname}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <img
+                          src={user.profile_image}
+                          className="rounded-full w-[3vw]"
+                        />
+                      </TableCell>
+                    </TableRow>
+
+                    <TableRow className="">
+                      <TableCell>Хэрэглэгчийн мэдээлэл засах</TableCell>
+                      <TableCell className="flex flex-col items-center">
+                        <IoSettingsOutline />
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className="" onClick={signOut}>
+                      <TableCell>Системээс гарах</TableCell>
+                      <TableCell className="flex flex-col items-center">
+                        <VscSignOut />
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </DialogContent>
+            </Dialog>
           </div>
         )}
       </div>

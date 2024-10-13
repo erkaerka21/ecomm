@@ -9,6 +9,7 @@ interface UserI {
   firstname: string;
   lastname: string;
   email: string;
+  profile_image: string;
 }
 
 interface ContextI {
