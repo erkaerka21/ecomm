@@ -17,7 +17,7 @@ const ProductCart = ({
     <div>
       <Card className="border-gray-400 border">
         <CardContent className="relative">
-          <Heart className="absolute top-[2vh] right-[1.5vw]" />
+          <Heart className="absolute top-[2vh] right-[1.5vw] text-red-500" />
           <img
             src={image}
             className="rounded-lg h-[60vh] w-full object-cover"

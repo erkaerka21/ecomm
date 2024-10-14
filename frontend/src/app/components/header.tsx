@@ -20,8 +20,9 @@ const Header = () => {
   const { toast } = useToast();
   const { user } = useUser();
   console.log("nevtersen useriig harah:", user);
-  const signOut = () => {
+  const signOut = async () => {
     localStorage.removeItem("token");
+
     toast({ description: "Хэрэглэгч та системээс амжилттай гарлаа." });
     router.push("/");
   };
@@ -79,7 +80,7 @@ const Header = () => {
                       <TableCell className="font-bold">
                         {user.firstname}
                       </TableCell>
-                      <TableCell className="text-center">
+                      <TableCell className="flex flex-col items-center">
                         <img
                           src={user.profile_image}
                           className="rounded-full w-[3vw]"

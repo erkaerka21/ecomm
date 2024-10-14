@@ -4,10 +4,11 @@ import {
   getAllCard,
   getUserCard,
 } from "../controllers/cart-controller";
+import { auth } from "../middlewares/auth";
 const router = Router();
 
 router.route("/add").post(createAndAddCart);
-router.route("/:id").get(getUserCard);
+router.route("/usercart").get(auth, getUserCard);
 router.route("/").get(getAllCard);
 
 export default router;

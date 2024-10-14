@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import ProductCart from "@/app/components/product-cart";
 import { useUser } from "@/app/provider/user-provider";
 import { useToast } from "@/hooks/use-toast";
+import { useMyCard } from "@/app/provider/card-provider";
 
 export default function DetailProductPage() {
   const { toast } = useToast();
@@ -17,6 +18,7 @@ export default function DetailProductPage() {
   const [size, setSize] = useState(["XS", "S", "M", "L", "XL", "XXL"]);
   const [choosedSize, setChoosedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const { fetchCard } = useMyCard();
   // const params = useParams();
   // console.log(params, "params info iig harah");
   // const { id }: { id: string } = useParams();
@@ -51,13 +53,15 @@ export default function DetailProductPage() {
   // const [intoCartData, setIntoCartData] = useState({});
   const createAndAddtoCart = async () => {
     try {
-      const respo = await axios.post(`http://localhost:9000/api/v1/cart`, {
+      const respo = await axios.post(`http://localhost:9000/api/v1/cart/add`, {
         userId: user?._id,
         productId: productId,
         quantity: quantity,
         size: choosedSize,
       });
       if (respo.status === 200) {
+        await fetchCard();
+
         return toast({
           description: "Та бүтээгдэхүүнээ амжилттай сагслаллаа.",
         });

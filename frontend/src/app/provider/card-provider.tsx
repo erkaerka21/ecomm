@@ -14,22 +14,25 @@ interface CardMy {
 interface ContextCard {
   myCard: CardMy | null;
   setMyCard: React.Dispatch<React.SetStateAction<CardMy | null>>;
-  fetchCard: object;
+  fetchCard: () => Promise<void>;
 }
 
 export const CardContext = createContext<ContextCard>({
   myCard: null,
   setMyCard: () => {},
-  fetchCard: () => {},
+  fetchCard: async () => {},
 });
 
 const CardProvider = ({ children }: { children: React.ReactNode }) => {
   const [myCard, setMyCard] = useState<CardMy | null>(null);
-  const { user } = useUser();
+  const [token, setToken] = useState("");
   const fetchCard = async () => {
     try {
+      const token = localStorage.getItem("token");
+      setToken(token || "");
       const response = await axios.get(
-        `http://localhost:9000/api/v1/card/${user?._id}`
+        `http://localhost:9000/api/v1/cart/usercart`,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       if (response.status === 200) {
         setMyCard(response.data.getMyCard);
@@ -41,7 +44,7 @@ const CardProvider = ({ children }: { children: React.ReactNode }) => {
   };
   useEffect(() => {
     fetchCard();
-  }, [myCard]);
+  }, [token]);
   return (
     <CardContext.Provider value={{ myCard, setMyCard, fetchCard }}>
       {children}

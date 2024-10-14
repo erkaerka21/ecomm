@@ -15,13 +15,13 @@ interface UserI {
 interface ContextI {
   user: UserI | null;
   setUser: React.Dispatch<React.SetStateAction<UserI | null>>;
-  fetchUser: object;
+  fetchUser: () => Promise<void>;
 }
 
 export const UserContext = createContext<ContextI>({
   user: null,
   setUser: () => {},
-  fetchUser: () => {},
+  fetchUser: async () => {},
 });
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {

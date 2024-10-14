@@ -39,7 +39,9 @@ export const createAndAddCart = async (req: Request, res: Response) => {
 export const getUserCard = async (req: Request, res: Response) => {
   const { id } = req.user;
   try {
-    const getMyCard = await Cart.findOne({ user: id });
+    const getMyCard = await Cart.findOne({ user: id }).populate(
+      "products.product"
+    );
     res.status(200).json({ message: "get my card successful", getMyCard });
   } catch (error) {
     res.status(400).json({ message: "something wrong with get my card" });

@@ -14,8 +14,10 @@ import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 import { uRL_AUTH_api } from "@/utils/util";
+import { useUser } from "@/app/provider/user-provider";
 
 const Signin = () => {
+  const { fetchUser } = useUser();
   const { toast } = useToast();
   const [userData, setUserData] = useState({ email: "", password: "" });
   const router = useRouter();
@@ -34,6 +36,7 @@ const Signin = () => {
         const { token } = response.data;
         console.log("login token iig harah", response.data);
         localStorage.setItem("token", token);
+        await fetchUser();
         router.push("/categories");
       }
     } catch (error) {
