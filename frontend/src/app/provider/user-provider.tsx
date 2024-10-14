@@ -1,8 +1,10 @@
 "use client";
 
+import { toast } from "@/hooks/use-toast";
 import { uRL_AUTH_api } from "@/utils/util";
 import axios from "axios";
-import { createContext, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createContext, use, useContext, useEffect, useState } from "react";
 
 interface UserI {
   _id: string;
@@ -16,17 +18,20 @@ interface ContextI {
   user: UserI | null;
   setUser: React.Dispatch<React.SetStateAction<UserI | null>>;
   fetchUser: () => Promise<void>;
+  signOut: () => Promise<void>;
 }
 
 export const UserContext = createContext<ContextI>({
   user: null,
   setUser: () => {},
   fetchUser: async () => {},
+  signOut: async () => {},
 });
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserI | null>(null);
   const [token, setToken] = useState("");
+  const router = useRouter();
   const fetchUser = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -43,12 +48,17 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
       console.error("cant fetching user", error);
     }
   };
+  const signOut = async () => {
+    await localStorage.removeItem("token");
+    toast({ description: "Хэрэглэгч та системээс амжилттай гарлаа." });
+    router.push("/");
+  };
   useEffect(() => {
     fetchUser();
   }, [token]);
 
   return (
-    <UserContext.Provider value={{ user, setUser, fetchUser }}>
+    <UserContext.Provider value={{ user, setUser, fetchUser, signOut }}>
       {children}
     </UserContext.Provider>
   );

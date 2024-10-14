@@ -16,16 +16,16 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 
 const Header = () => {
-  const router = useRouter();
-  const { toast } = useToast();
-  const { user } = useUser();
+  // const router = useRouter();
+  // const { toast } = useToast();
+  const { user, signOut } = useUser();
   console.log("nevtersen useriig harah:", user);
-  const signOut = async () => {
-    localStorage.removeItem("token");
+  // const signOut = async () => {
+  //   localStorage.removeItem("token");
 
-    toast({ description: "Хэрэглэгч та системээс амжилттай гарлаа." });
-    router.push("/");
-  };
+  //   toast({ description: "Хэрэглэгч та системээс амжилттай гарлаа." });
+  //   router.push("/");
+  // };
   return (
     <div className="bg-black flex flex-row justify-between items-center px-6 py-3">
       <div className="text-white flex flex-row gap-x-7 items-center">
