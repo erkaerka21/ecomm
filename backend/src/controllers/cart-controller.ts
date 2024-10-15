@@ -59,3 +59,33 @@ export const getAllCard = async (req: Request, res: Response) => {
     console.error("something wrong with get all card", error);
   }
 };
+
+export const changeProductQuantity = async (req: Request, res: Response) => {
+  const { user, productId, quantity } = req.body;
+  try {
+    const findUser = await Cart.findOne({ user: user });
+    if (!findUser) {
+      return res.status(400).json({
+        message: "бүтээгдэхүүний тоог өөрчилөхийн тулд заавал нэвтэрч орно уу",
+      });
+    }
+    const chooseProduct = findUser.products.findIndex(
+      (oneItem) => oneItem.product.toString() === productId
+    );
+    findUser.products[chooseProduct].quantity = quantity;
+
+    const saveQuantityChange = await findUser?.save();
+    res.status(200).json({
+      message: "бүтээгдэхүүний тоо ширхэгийг амжилттай өөрчиллөө",
+      saveQuantityChange,
+    });
+  } catch (error) {
+    console.error(
+      "бүтээгдэхүүний тоог өөрчилөхөд ямар нэгэн алдаа гарлаа",
+      error
+    );
+    res.status(400).json({
+      message: "бүтээгдэхүүний тоог өөрчилөхөд ямар нэгэн алдаа гарлаа",
+    });
+  }
+};
