@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Heart } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Link from "next/link";
@@ -8,16 +8,29 @@ const ProductCart = ({
   name,
   price,
   image,
+  id,
 }: {
   name: string;
   price: number;
   image: string;
+  id: string;
 }) => {
+  const [wishListiinToo, setWishListiinToo] = useState(0);
+  const wishlist = () => {
+    // localStorage.setItem("wishlist", wishlist);
+    console.log("productiin id iig harah", wishListiinToo);
+  };
   return (
     <div>
       <Card className="border-gray-400 border">
         <CardContent className="relative">
-          <Heart className="absolute top-[2vh] right-[1.5vw] text-red-500" />
+          <Heart
+            className="absolute top-[2vh] right-[1.5vw] text-red-500"
+            id={id}
+            // onClick={() => {
+            //   setWishListiinToo(id);
+            // }}
+          />
           <img
             src={image}
             className="rounded-lg h-[60vh] w-full object-cover"

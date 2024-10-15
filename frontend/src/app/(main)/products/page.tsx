@@ -35,6 +35,7 @@ const Products = () => {
               name={product.name}
               price={product.price}
               image={product.images[0]}
+              id={product._id}
             />
           </Link>
         ))}

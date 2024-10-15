@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  changeProductQuantity,
   createAndAddCart,
   getAllCard,
   getUserCard,
@@ -10,5 +11,6 @@ const router = Router();
 router.route("/add").post(createAndAddCart);
 router.route("/usercart").get(auth, getUserCard);
 router.route("/").get(getAllCard);
+router.route("/change-quantity").put(changeProductQuantity);
 
 export default router;
