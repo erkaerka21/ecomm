@@ -89,3 +89,28 @@ export const changeProductQuantity = async (req: Request, res: Response) => {
     });
   }
 };
+export const deleteProductfromCart = async (req: Request, res: Response) => {
+  const { user, productId } = req.body;
+  try {
+    const findUser = await Cart.findOne({ user: user });
+    if (!findUser) {
+      return res.status(400).json({
+        message: "бүтээгдэхүүний тоог өөрчилөхийн тулд заавал нэвтэрч орно уу",
+      });
+    }
+    const chooseProduct = findUser.products.findIndex(
+      (oneItem) => oneItem.product.toString() === productId
+    );
+    findUser.products.splice(chooseProduct, 1);
+    const saveChanges = await findUser.save();
+    res.status(200).json({
+      message: "бүтээгдэхүүнийг амжилттай устгалаа",
+      saveChanges,
+    });
+  } catch (error) {
+    console.error("бүтээгдэхүү устгахад ямар нэгэн алдаа гарлаа", error);
+    res.status(400).json({
+      message: "бүтээгдэхүү устгахад ямар нэгэн алдаа гарлаа",
+    });
+  }
+};

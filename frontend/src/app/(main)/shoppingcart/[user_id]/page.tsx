@@ -10,14 +10,37 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
+import _ from "lodash";
+import { useEffect } from "react";
+export const getDiscountedPrice = (price: number, discount: number) => {
+  return price - (price * discount) / 100;
+};
+const perTotalPrice = (quantity: number, perPrice: number) => {
+  return quantity * perPrice;
+};
 const ShoppingCart = () => {
-  const { myCard }: any = useMyCard();
-  console.log("mycard iig harah", myCard);
-  const quantities = myCard?.products.map((pro: any) => pro.quantity);
-  console.log("quantitynuudiig harah", quantities);
-  const prices = myCard?.products.map((pro: any) => pro.product.price);
-  console.log("priceuudiig harah", prices);
+  const { myCard, deleteProductFromCart }: any = useMyCard();
+  // console.log("mycard iig harah", myCard);
+  // const quantities = myCard?.products.map((pro: any) => pro.quantity);
+  // console.log("quantitynuudiig harah", quantities);
+  // const prices = myCard?.products.map((pro: any) => pro.product.price);
+  // console.log("priceuudiig harah", prices);
+  const perTotalPrices: number[] = myCard?.products.map((pro: any) =>
+    perTotalPrice(
+      pro.quantity,
+      getDiscountedPrice(pro.product.price, pro.product.discount)
+    )
+  );
+  console.log("tus buriin niit une", perTotalPrices);
+  // console.log("per total priceuudiig harah", perTotalPrices);
+  // const totalPrice: number = perTotalPrices.reduce((x: number, y: number) => {
+  //   return x + y;
+  // }, 0);
+  const totalPrice = _.sum(perTotalPrices);
+  console.log("niit une", totalPrice);
+  // useEffect(() => {
+  //   deleteProductFromCart;
+  // }, [myCard]);
   return (
     <div className="flex flex-row justify-center">
       <Card className="w-1/2">
@@ -29,15 +52,25 @@ const ShoppingCart = () => {
             <CardsCart
               image={product.product.images[0]}
               productName={product.product.name}
-              productPrice={product.product.price}
+              productPrice={getDiscountedPrice(
+                product.product.price,
+                product.product.discount
+              )}
               productQuantity={product.quantity}
+              perTotalPrice={perTotalPrice(
+                product.quantity,
+                getDiscountedPrice(
+                  product.product.price,
+                  product.product.discount
+                )
+              )}
             />
           ))}
         </CardContent>
         <CardFooter className=" flex flex-col justify-center">
           <CardContent className="w-[90%] flex flex-row justify-between">
             <p className="text-xl font-semibold">Нийт төлөх дүн : </p>
-            <p>{}₮</p>
+            <p className="text-2xl font-bold">{totalPrice}₮</p>
           </CardContent>
           <Button className="bg-blue-600 rounded-3xl">Худалдан авах</Button>
         </CardFooter>

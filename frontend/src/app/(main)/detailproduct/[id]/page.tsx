@@ -45,7 +45,7 @@ export default function DetailProductPage() {
       );
       setProductDetail(response.data.getOneProduct);
       setRelatedProducts(response.data.relatedProduct);
-      console.log("tatah datag harag", response.data);
+      console.log("tatah datag harag", response.data.relatedProduct);
     } catch (error) {
       console.error("fetching products detail page is wrong", error);
     }
@@ -156,12 +156,18 @@ export default function DetailProductPage() {
       </div>
       <div>
         <h1 className="font-extrabold text-6xl">Холбоотой бараа</h1>
-        <div className="grid grid-cols-4 px-12 gap-x-6 gap-y-12 my-4">
+        <div className="grid grid-cols-3 px-12 gap-x-6 gap-y-12 my-4">
           {relatedProducts.map((relatedProduct: any) => (
             <ProductCart
               name={relatedProduct.name}
               price={relatedProduct.price}
               image={relatedProduct.images[0]}
+              id={relatedProduct._id}
+              discount={relatedProduct.discount}
+              priceWithDiscount={getDiscountedPrice(
+                relatedProduct.price,
+                relatedProduct.discount
+              )}
             />
           ))}
         </div>

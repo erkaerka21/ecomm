@@ -22,6 +22,9 @@ const Products = () => {
   useEffect(() => {
     getAllProduct();
   }, []);
+  const getDiscountedPrice = (price: number, discount: number) => {
+    return price - (price * discount) / 100;
+  };
   return (
     <div>
       <div>
@@ -29,13 +32,20 @@ const Products = () => {
         hfhfhf
       </div>
       <div className="grid grid-cols-4 px-12 gap-x-6 gap-y-12 my-4">
-        {allProduct.map((product: any) => (
-          <Link href={`/detailproduct/${product._id}`} key={product._id}>
+        {allProduct.map((product: any, index: any) => (
+          <Link href={`/detailproduct/${product._id}`}>
             <ProductCart
+              key={index}
               name={product.name}
               price={product.price}
               image={product.images[0]}
               id={product._id}
+              discount={product.discount}
+              priceWithDiscount={getDiscountedPrice(
+                product.price,
+                product.discount
+              )}
+              className={"index === 6 && `col-span-2 row-span-10`"}
             />
           </Link>
         ))}

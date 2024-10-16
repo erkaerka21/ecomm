@@ -19,7 +19,7 @@ const Header = () => {
   // const router = useRouter();
   // const { toast } = useToast();
   const { user, signOut } = useUser();
-  console.log("nevtersen useriig harah:", user);
+  console.log("nevtersen useriig harah --- header dotor bga:", user);
   // const signOut = async () => {
   //   localStorage.removeItem("token");
 

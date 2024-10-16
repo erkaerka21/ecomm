@@ -9,11 +9,17 @@ const ProductCart = ({
   price,
   image,
   id,
+  discount,
+  priceWithDiscount,
+  className,
 }: {
   name: string;
   price: number;
   image: string;
   id: string;
+  discount: number;
+  className: any;
+  priceWithDiscount: number;
 }) => {
   const [wishListiinToo, setWishListiinToo] = useState(0);
   const wishlist = () => {
@@ -21,7 +27,7 @@ const ProductCart = ({
     console.log("productiin id iig harah", wishListiinToo);
   };
   return (
-    <div>
+    <div className={`${className}`}>
       <Card className="border-gray-400 border">
         <CardContent className="relative">
           <Heart
@@ -37,8 +43,19 @@ const ProductCart = ({
           />
         </CardContent>
         <CardFooter className="flex flex-col">
-          <h1>{name}</h1>
-          <h1>{price}</h1>
+          <h1 className="text-lg">{name}</h1>
+          {discount === 0 && (
+            <div>
+              <h1 className="font-bold text-xl">{price}₮</h1>
+            </div>
+          )}
+          {discount !== 0 && (
+            <div className="flex flex-row gap-x-5 items-center">
+              <h1 className="font-bold text-xl">{priceWithDiscount}₮</h1>
+              <p className="text-gray-500 line-through">{price}₮</p>
+              <h1 className="font-bold text-xl text-red-500">{discount}%</h1>
+            </div>
+          )}
         </CardFooter>
       </Card>
     </div>
