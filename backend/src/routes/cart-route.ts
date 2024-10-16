@@ -12,7 +12,9 @@ const router = Router();
 router.route("/add").post(createAndAddCart);
 router.route("/usercart").get(auth, getUserCard);
 router.route("/").get(getAllCard);
-router.route("/change-quantity").put(changeProductQuantity);
-router.route("/delete-product").delete(deleteProductfromCart);
+router.route("/change-quantity/:productId").put(auth, changeProductQuantity);
+router
+  .route("/delete-from-cart/:productId")
+  .delete(auth, deleteProductfromCart);
 
 export default router;

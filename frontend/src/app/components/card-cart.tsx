@@ -9,7 +9,6 @@ import {
 import { CiCirclePlus } from "react-icons/ci";
 import { CiCircleMinus } from "react-icons/ci";
 import { useMyCard } from "../provider/card-provider";
-import axios from "axios";
 import { useUser } from "../provider/user-provider";
 import { useToast } from "@/hooks/use-toast";
 import { MdDeleteForever } from "react-icons/md";
@@ -20,42 +19,44 @@ const CardsCart = ({
   productPrice,
   productQuantity,
   perTotalPrice,
+
+  productId,
 }: {
   image: string;
   productName: string;
   productPrice: number;
   productQuantity: number;
   perTotalPrice: number;
+
+  productId: string;
 }) => {
   const { toast } = useToast();
   const { myCard, setMyCard, deleteProductFromCart } = useMyCard();
   const { user } = useUser();
-  const changeQuantity = async (
-    user: any,
-    productId: string,
-    quantity: number
-  ) => {
-    setMyCard((previousMyCard: any) =>
-      previousMyCard.map((oneItem: any) =>
-        oneItem.product._id === productId ? { ...oneItem, quantity } : oneItem
-      )
-    );
-    try {
-      const response = await axios.put(
-        "http://localhost:9000/api/v1/cart/change-quantity",
-        { user: user._id, productId, quantity: quantity }
-      );
-      if (response.status === 200) {
-        toast({ description: "Тус барааны ширхэгийг амжилттай өөрчиллөө" });
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      toast({
-        variant: "destructive",
-        description:
-          "Тус барааны тоо ширхэгийг өөрчилөхөд ямар нэгэн алдаа гарлаа",
-      });
-    }
+  // const changeQuantity = async (
+
+  // ) => {
+
+  //   try {
+  //     const response = await axios.put(
+  //       "http://localhost:9000/api/v1/cart/change-quantity",
+  //       { user: user._id, productId, quantity: quantity }
+  //     );
+  //     if (response.status === 200) {
+  //       toast({ description: "Тус барааны ширхэгийг амжилттай өөрчиллөө" });
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //     toast({
+  //       variant: "destructive",
+  //       description:
+  //         "Тус барааны тоо ширхэгийг өөрчилөхөд ямар нэгэн алдаа гарлаа",
+  //     });
+  //   }
+  // };
+  const handleClick = (e: any) => {
+    const productId = e.target;
+    console.log("handle click", e.target);
   };
   return (
     <div className=" rounded-2xl w-[90%] mb-8">
@@ -82,7 +83,8 @@ const CardsCart = ({
         <CardFooter className="w-1/5  flex flex-row justify-center items-center">
           <MdDeleteForever
             className="text-4xl text-red-500"
-            onClick={deleteProductFromCart}
+            target={productId}
+            onClick={handleClick}
           />
         </CardFooter>
       </Card>

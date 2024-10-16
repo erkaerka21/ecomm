@@ -24,6 +24,7 @@ export default function DetailProductPage() {
   // const { id }: { id: string } = useParams();
   // console.log("url iin id iig harah", id);
   const params = useParams();
+  console.log("getone productiin detail --- pramsiig harah", params);
   const productId = params.id;
   const [productDetail, setProductDetail] = useState({
     name: "",

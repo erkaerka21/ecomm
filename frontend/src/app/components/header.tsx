@@ -14,11 +14,13 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { VscSignOut } from "react-icons/vsc";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import { useMyCard } from "../provider/card-provider";
 
 const Header = () => {
   // const router = useRouter();
   // const { toast } = useToast();
   const { user, signOut } = useUser();
+  const { myCard } = useMyCard();
   console.log("nevtersen useriig harah --- header dotor bga:", user);
   // const signOut = async () => {
   //   localStorage.removeItem("token");
@@ -50,7 +52,7 @@ const Header = () => {
 
       <div className="flex flex-row items-center gap-x-5">
         <FaHeart className="text-white" />
-        <Link href={`/shoppingcart/${user?._id}`}>
+        <Link href={`/shoppingcart/${myCard?._id}`}>
           <FaShoppingCart className="text-white" />
         </Link>
         {!user && (

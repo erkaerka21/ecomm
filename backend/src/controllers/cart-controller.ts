@@ -61,9 +61,11 @@ export const getAllCard = async (req: Request, res: Response) => {
 };
 
 export const changeProductQuantity = async (req: Request, res: Response) => {
-  const { user, productId, quantity } = req.body;
+  const { id } = req.user;
+  const { productId } = req.params;
+  const { quantity } = req.body;
   try {
-    const findUser = await Cart.findOne({ user: user });
+    const findUser = await Cart.findOne({ user: id });
     if (!findUser) {
       return res.status(400).json({
         message: "бүтээгдэхүүний тоог өөрчилөхийн тулд заавал нэвтэрч орно уу",
@@ -90,9 +92,13 @@ export const changeProductQuantity = async (req: Request, res: Response) => {
   }
 };
 export const deleteProductfromCart = async (req: Request, res: Response) => {
-  const { user, productId } = req.body;
+  // const { user, productId } = req.body;
+  const { id } = req.user;
+  const { productId } = req.params;
   try {
-    const findUser = await Cart.findOne({ user: user });
+    const findUser = await Cart.findOne({ user: id }).populate(
+      "products.product"
+    );
     if (!findUser) {
       return res.status(400).json({
         message: "бүтээгдэхүүний тоог өөрчилөхийн тулд заавал нэвтэрч орно уу",
