@@ -56,7 +56,7 @@ const CardsCart = ({
   // };
   const handleClick = (e: any) => {
     const productId = e.target;
-    console.log("handle click", e.target);
+    console.log("handle click", e.target(`${productId}`));
   };
   return (
     <div className=" rounded-2xl w-[90%] mb-8">
@@ -83,8 +83,9 @@ const CardsCart = ({
         <CardFooter className="w-1/5  flex flex-row justify-center items-center">
           <MdDeleteForever
             className="text-4xl text-red-500"
-            target={productId}
-            onClick={handleClick}
+            // onClick={() => {
+            //   handleClick();
+            // }}
           />
         </CardFooter>
       </Card>

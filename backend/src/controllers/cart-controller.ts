@@ -96,9 +96,7 @@ export const deleteProductfromCart = async (req: Request, res: Response) => {
   const { id } = req.user;
   const { productId } = req.params;
   try {
-    const findUser = await Cart.findOne({ user: id }).populate(
-      "products.product"
-    );
+    const findUser = await Cart.findOne({ user: id });
     if (!findUser) {
       return res.status(400).json({
         message: "бүтээгдэхүүний тоог өөрчилөхийн тулд заавал нэвтэрч орно уу",
@@ -107,8 +105,9 @@ export const deleteProductfromCart = async (req: Request, res: Response) => {
     const chooseProduct = findUser.products.findIndex(
       (oneItem) => oneItem.product.toString() === productId
     );
+    console.log("choose productiig harah", chooseProduct);
     findUser.products.splice(chooseProduct, 1);
-    const saveChanges = await findUser.save();
+    const saveChanges = await findUser?.save();
     res.status(200).json({
       message: "бүтээгдэхүүнийг амжилттай устгалаа",
       saveChanges,

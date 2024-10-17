@@ -25,7 +25,7 @@ const ShoppingCart = () => {
   // console.log("quantitynuudiig harah", quantities);
   // const prices = myCard?.products.map((pro: any) => pro.product.price);
   // console.log("priceuudiig harah", prices);
-  const perTotalPrices: number[] = myCard?.map((pro: any) =>
+  const perTotalPrices: number[] = myCard?.products.map((pro: any) =>
     perTotalPrice(
       pro.quantity,
       getDiscountedPrice(pro.product.price, pro.product.discount)
@@ -48,7 +48,7 @@ const ShoppingCart = () => {
           <CardTitle>1.Миний сагс()</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col items-center">
-          {myCard?.map((product: any) => (
+          {myCard?.products.map((product: any) => (
             <CardsCart
               image={product.product.images[0]}
               productName={product.product.name}

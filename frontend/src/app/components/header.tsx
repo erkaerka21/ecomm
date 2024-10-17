@@ -21,7 +21,7 @@ const Header = () => {
   // const { toast } = useToast();
   const { user, signOut } = useUser();
   const { myCard } = useMyCard();
-  console.log("nevtersen useriig harah --- header dotor bga:", user);
+  console.log("nevtersen useriig harah --- header dotor bga:", user, myCard);
   // const signOut = async () => {
   //   localStorage.removeItem("token");
 

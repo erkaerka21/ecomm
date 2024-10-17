@@ -42,7 +42,7 @@ const CardProvider = ({ children }: { children: React.ReactNode }) => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (response.status === 200) {
-        setMyCard(response.data.getMyCard.products);
+        setMyCard(response.data.getMyCard);
         console.log("my cardiin datag harah", response.data.getMyCard);
       }
     } catch (error) {
