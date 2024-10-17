@@ -16,6 +16,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import CreateReview from "@/app/components/create-review";
 
 export default function DetailProductPage() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -105,19 +106,22 @@ export default function DetailProductPage() {
   console.log("хэрэглэгчийн айдиг харах", user?._id);
   return (
     <div className="px-24 py-16">
-      <div className="flex flex-row">
-        <div className="grid grid-cols-1">
+      <div className="flex flex-row gap-x-4 ">
+        <div className="h-[90vh] w-[10%] grid grid-rows-4 gap-y-4 py-8">
           {productDetail.images.map((image) => (
             <img
               src={image}
-              className="rounded-2xl h-[10vh] w-full object-cover"
+              className="rounded-2xl w-full h-full object-cover"
             />
           ))}
         </div>
-        <div>
-          <img src={productDetail.images[0]} className="rounded-2xl h-[80vh]" />
+        <div className="w-[45%] h-[90vh]">
+          <img
+            src={productDetail.images[0]}
+            className="rounded-2xl w-[100%] h-[100%] object-cover"
+          />
         </div>
-        <div>
+        <div className="flex flex-col w-[45%] py-8 gap-y-3 items-start">
           <div>
             {productDetail.isNew === true && (
               <div className="text-sm font-bold border-2 border-blue-600 rounded-2xl px-[1vw] py-[0.5vh] text-center">
@@ -131,17 +135,19 @@ export default function DetailProductPage() {
             )}
           </div>
           <div className="flex flex-row items-center">
-            <p className="text-2xl font-bold">{productDetail.name}</p>
-            <Heart className=" top-[2vh] right-[1.5vw]" />
+            <p className="text-2xl xl:text-3xl font-bold">
+              {productDetail.name}
+            </p>
+            <Heart className="ml-4" />
           </div>
-          <p>{productDetail.description}</p>
+          <p className="text-xl">{productDetail.description}</p>
           <div>
-            <p className="flex flex-row">Хэмжээний заавар</p>
+            <p className="flex flex-row text-lg mb-2">Хэмжээний заавар</p>
 
-            <div className="flex flex-row">
+            <div className="flex flex-row gap-x-1">
               {size.map((size) => (
                 <p
-                  className={`border-2 rounded-full p-2 btn ${
+                  className={`text-base w-10 h-8 flex flex-row justify-center items-center border-2 rounded-full btn ${
                     productDetail.size === size &&
                     `bg-slate-200 text-white border-slate-200`
                   }`}
@@ -153,16 +159,22 @@ export default function DetailProductPage() {
               ))}
             </div>
           </div>
-          <div className="flex flex-row items-center">
-            <CiCircleMinus onClick={() => setQuantity(quantity - 1)} />
+          <div className="flex flex-row items-center text-2xl gap-x-4">
+            <CiCircleMinus
+              onClick={() => setQuantity(quantity - 1)}
+              className="text-3xl"
+            />
             {quantity}
-            <CiCirclePlus onClick={() => setQuantity(quantity + 1)} />
+            <CiCirclePlus
+              onClick={() => setQuantity(quantity + 1)}
+              className="text-3xl"
+            />
           </div>
-          <div>
+          <div className="text-3xl font-bold">
             {getDiscountedPrice(productDetail.price, productDetail.discount)}₮
           </div>
           <Button
-            className="bg-blue-600 h-8 rounded-2xl"
+            className="bg-blue-600 rounded-3xl px-8 mt-3 text-lg"
             onClick={createAndAddtoCart}
           >
             Сагсанд нэмэх
@@ -184,8 +196,9 @@ export default function DetailProductPage() {
                   </Button>
                 </CollapsibleTrigger>
               </div>
-              <CollapsibleContent className="space-y-2">
+              <CollapsibleContent className="">
                 {getReviews?.map((oneReview) => oneReview.reviewPoint)}
+                <CreateReview />
               </CollapsibleContent>
             </Collapsible>
           </div>

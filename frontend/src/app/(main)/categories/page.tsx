@@ -4,7 +4,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import ProductCart from "@/app/components/product-cart";
-import { getDiscountedPrice } from "../shoppingcart/[myCard._id]/page";
+import { getDiscountedPrice } from "../shoppingcart/page";
 
 const Categories = () => {
   const sizes = ["XS", "S", "M", "L", "XL", "XXL"];

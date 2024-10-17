@@ -52,7 +52,7 @@ const Header = () => {
 
       <div className="flex flex-row items-center gap-x-5">
         <FaHeart className="text-white" />
-        <Link href={`/shoppingcart/${myCard?._id}`}>
+        <Link href={"/shoppingcart"}>
           <FaShoppingCart className="text-white" />
         </Link>
         {!user && (
