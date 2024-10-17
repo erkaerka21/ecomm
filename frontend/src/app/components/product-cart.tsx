@@ -11,14 +11,13 @@ const ProductCart = ({
   id,
   discount,
   priceWithDiscount,
-  className,
 }: {
   name: string;
   price: number;
   image: string;
   id: string;
   discount: number;
-  className: any;
+
   priceWithDiscount: number;
 }) => {
   const [wishListiinToo, setWishListiinToo] = useState(0);
@@ -27,7 +26,7 @@ const ProductCart = ({
     console.log("productiin id iig harah", wishListiinToo);
   };
   return (
-    <div className={`${className}`}>
+    <div className="">
       <Card className="border-gray-400 border">
         <CardContent className="relative">
           <Heart

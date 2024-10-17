@@ -19,25 +19,21 @@ const perTotalPrice = (quantity: number, perPrice: number) => {
   return quantity * perPrice;
 };
 const ShoppingCart = () => {
-  const { myCard, deleteProductFromCart }: any = useMyCard();
+  const { myCard }: any = useMyCard();
+  console.log("shopping cart dotorh mycardiig harah", myCard);
   // console.log("mycard iig harah", myCard);
   // const quantities = myCard?.products.map((pro: any) => pro.quantity);
   // console.log("quantitynuudiig harah", quantities);
-  // const prices = myCard?.products.map((pro: any) => pro.product.price);
-  // console.log("priceuudiig harah", prices);
-  const perTotalPrices: number[] = myCard?.products.map((pro: any) =>
+
+  const perTotalPrices: number[] = myCard?.map((pro: any) =>
     perTotalPrice(
       pro.quantity,
       getDiscountedPrice(pro.product.price, pro.product.discount)
     )
   );
-  console.log("tus buriin niit une", perTotalPrices);
-  // console.log("per total priceuudiig harah", perTotalPrices);
-  // const totalPrice: number = perTotalPrices.reduce((x: number, y: number) => {
-  //   return x + y;
-  // }, 0);
+
   const totalPrice = _.sum(perTotalPrices);
-  console.log("niit une", totalPrice);
+
   // useEffect(() => {
   //   deleteProductFromCart;
   // }, [myCard]);
@@ -48,7 +44,7 @@ const ShoppingCart = () => {
           <CardTitle>1.Миний сагс()</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col items-center">
-          {myCard?.products.map((product: any) => (
+          {myCard?.map((product: any) => (
             <CardsCart
               image={product.product.images[0]}
               productName={product.product.name}

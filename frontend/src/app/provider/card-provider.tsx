@@ -16,16 +16,19 @@ interface ContextCard {
   myCard: CardMy | null;
   setMyCard: React.Dispatch<React.SetStateAction<CardMy | null>>;
   fetchCard: () => Promise<void>;
-  deleteProductFromCart: () => Promise<void>;
-  changeCartsProductsQuantity: () => Promise<void>;
+  deleteProductFromCart: (productId: string) => Promise<void>;
+  changeCartsProductsQuantity: (
+    productId: string,
+    quantity: number
+  ) => Promise<void>;
 }
 
 export const CardContext = createContext<ContextCard>({
   myCard: null,
   setMyCard: () => {},
   fetchCard: async () => {},
-  deleteProductFromCart: async () => {},
-  changeCartsProductsQuantity: async () => {},
+  deleteProductFromCart: async (productId) => {},
+  changeCartsProductsQuantity: async (productId, quantity) => {},
 });
 
 const CardProvider = ({ children }: { children: React.ReactNode }) => {
@@ -42,7 +45,7 @@ const CardProvider = ({ children }: { children: React.ReactNode }) => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (response.status === 200) {
-        setMyCard(response.data.getMyCard);
+        setMyCard(response.data.getMyCard.products);
         console.log("my cardiin datag harah", response.data.getMyCard);
       }
     } catch (error) {
@@ -53,7 +56,7 @@ const CardProvider = ({ children }: { children: React.ReactNode }) => {
     const usertoken = localStorage.getItem("token");
     try {
       const response = await axios.delete(
-        `http://localhost:9000/api/v1/cart/delete-from-cart/${params.productId}`,
+        `http://localhost:9000/api/v1/cart/delete-from-cart/${productId}`,
         { headers: { Authorization: `Bearer ${usertoken}` } }
       );
       if (response.status === 200) {
@@ -70,43 +73,52 @@ const CardProvider = ({ children }: { children: React.ReactNode }) => {
       });
     }
   };
-  // const changeCartsProductsQuantity = async (
-  //   id: any,
-  //   productId: string,
-  //   quantity: number
-  // ) => {
-  //   setMyCard((previousMyCard: any) =>
-  //     previousMyCard.map((oneItem: any) =>
-  //       oneItem.product._id === productId ? { ...oneItem, quantity } : oneItem
-  //     )
-  //   );
-  //   try {
-  //     const token = localStorage.getItem("token");
-  //     const response = await axios.put(
-  //       "http://localhost:9000/api/v1/cart/change-quantity/${params.productId}",
-  //       {},
-  //       { headers: { Authorization: `Bearer ${token}` } }
-  //     );
-  //     if (response.status === 200) {
-  //       console.log("cart dotorh productuudiin toog uurchilsun.");
-  //       toast({
-  //         description: "сагс дахь тус бүтээгдэхүүний тоог өөрчилсөн.",
-  //       });
-  //     }
-  //   } catch(error) {
-  //     console.error("бүтээгдэхүүний тоог өөрчилөхөд ямар нэгэн алдаа гарлаа", error);
-  //     toast({
-  //       variant: "destructive",
-  //       description: "бүтээгдэхүүний тоог өөрчилөхөд ямар нэгэн алдаа гарлаа.",
-  //     });
-  //   }}
-  // };
+  const changeCartsProductsQuantity = async (
+    productId: string,
+    quantity: number
+  ) => {
+    setMyCard((previousMyCard: any) =>
+      previousMyCard?.map((oneItem: any) =>
+        oneItem.product._id === productId ? { ...oneItem, quantity } : oneItem
+      )
+    );
+    try {
+      const dtoken = localStorage.getItem("token");
+      const response = await axios.put(
+        `http://localhost:9000/api/v1/cart/change-quantity/${productId}`,
+        { productId, quantity },
+        { headers: { Authorization: `Bearer ${dtoken}` } }
+      );
+      if (response.status === 200) {
+        console.log("cart dotorh productuudiin toog uurchilsun.");
+        toast({
+          description: "сагс доторхи тус бүтээгдэхүүний тоог өөрчилсөн.",
+        });
+      }
+    } catch (error) {
+      console.error(
+        "бүтээгдэхүүний тоог өөрчилөхөд ямар нэгэн алдаа гарлаа",
+        error
+      );
+      toast({
+        variant: "destructive",
+        description: "бүтээгдэхүүний тоог өөрчилөхөд ямар нэгэн алдаа гарлаа.",
+      });
+    }
+  };
   useEffect(() => {
     fetchCard();
   }, [token]);
+
   return (
     <CardContext.Provider
-      value={{ myCard, setMyCard, fetchCard, deleteProductFromCart }}
+      value={{
+        myCard,
+        setMyCard,
+        fetchCard,
+        deleteProductFromCart,
+        changeCartsProductsQuantity,
+      }}
     >
       {children}
     </CardContext.Provider>

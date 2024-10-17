@@ -31,7 +31,12 @@ const CardsCart = ({
   productId: string;
 }) => {
   const { toast } = useToast();
-  const { myCard, setMyCard, deleteProductFromCart } = useMyCard();
+  const {
+    myCard,
+    setMyCard,
+    deleteProductFromCart,
+    changeCartsProductsQuantity,
+  } = useMyCard();
   const { user } = useUser();
   // const changeQuantity = async (
 
@@ -54,10 +59,7 @@ const CardsCart = ({
   //     });
   //   }
   // };
-  const handleClick = (e: any) => {
-    const productId = e.target;
-    console.log("handle click", e.target(`${productId}`));
-  };
+
   return (
     <div className=" rounded-2xl w-[90%] mb-8">
       <Card className="flex flex-row justify-between items-center rounded-2xl bg-white border border-gray-400 h-[20vh] ">
@@ -71,21 +73,28 @@ const CardsCart = ({
           <CardTitle className="text-2xl">{productName}</CardTitle>
           <div className="flex flex-row items-center text-xl">
             <CiCircleMinus
-            // onClick={() => {
-            //   changeQuantity();
-            // }}
+              onClick={() => {
+                changeCartsProductsQuantity(
+                  productId,
+                  Math.max(0, productQuantity - 1)
+                );
+              }}
             />
             <p>{productQuantity}</p>
-            <CiCirclePlus />
+            <CiCirclePlus
+              onClick={() => {
+                changeCartsProductsQuantity(productId, productQuantity + 1);
+              }}
+            />
           </div>
           <p className="text-lg font-medium">{perTotalPrice}₮</p>
         </CardContent>
         <CardFooter className="w-1/5  flex flex-row justify-center items-center">
           <MdDeleteForever
             className="text-4xl text-red-500"
-            // onClick={() => {
-            //   handleClick();
-            // }}
+            onClick={() => {
+              deleteProductFromCart(productId);
+            }}
           />
         </CardFooter>
       </Card>

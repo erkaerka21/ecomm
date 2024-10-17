@@ -20,3 +20,18 @@ export const createReview = async (req: Request, res: Response) => {
       .json({ message: "review bichihed yamar negen aldaa garlaa" });
   }
 };
+
+export const getReview = async (req: Request, res: Response) => {
+  const { productId } = req.params;
+  try {
+    const getReview = await Review.find({ product: productId }).populate(
+      "user"
+    );
+    res.status(200).json({ message: "reviewiig amjilttai harlaa.", getReview });
+  } catch (error) {
+    console.error("review unshihad yamar negen aldaa garlaa", error);
+    res
+      .status(400)
+      .json({ message: "review unshihad yamar negen aldaa garlaa" });
+  }
+};

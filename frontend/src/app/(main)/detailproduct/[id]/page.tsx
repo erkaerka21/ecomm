@@ -11,21 +11,14 @@ import ProductCart from "@/app/components/product-cart";
 import { useUser } from "@/app/provider/user-provider";
 import { useToast } from "@/hooks/use-toast";
 import { useMyCard } from "@/app/provider/card-provider";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 export default function DetailProductPage() {
-  const { toast } = useToast();
-  const { user } = useUser();
-  const [size, setSize] = useState(["XS", "S", "M", "L", "XL", "XXL"]);
-  const [choosedSize, setChoosedSize] = useState("");
-  const [quantity, setQuantity] = useState(1);
-  const { fetchCard } = useMyCard();
-  // const params = useParams();
-  // console.log(params, "params info iig harah");
-  // const { id }: { id: string } = useParams();
-  // console.log("url iin id iig harah", id);
-  const params = useParams();
-  console.log("getone productiin detail --- pramsiig harah", params);
-  const productId = params.id;
+  const [isOpen, setIsOpen] = React.useState(false);
   const [productDetail, setProductDetail] = useState({
     name: "",
     price: 0,
@@ -36,6 +29,23 @@ export default function DetailProductPage() {
     discount: 0,
   });
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const [size, setSize] = useState(["XS", "S", "M", "L", "XL", "XXL"]);
+  const [choosedSize, setChoosedSize] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const [getReviews, setGetReviews] = useState([
+    { user: {}, product: "", reviewPoint: "", comment: "" },
+  ]);
+  const { fetchCard } = useMyCard();
+  const { toast } = useToast();
+  const { user } = useUser();
+  // const params = useParams();
+  // console.log(params, "params info iig harah");
+  // const { id }: { id: string } = useParams();
+  // console.log("url iin id iig harah", id);
+  const params = useParams();
+  console.log("getone productiin detail --- pramsiig harah", params);
+  const productId = params.id;
+
   const getDiscountedPrice = (price: number, discount: number) => {
     return price - (price * discount) / 100;
   };
@@ -76,8 +86,19 @@ export default function DetailProductPage() {
       console.error("бүтээгдэхүүн сагслахад ямар нэгэн алдаа гарлаа", error);
     }
   };
+  const readReviews = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:9000/api/v1/review/read-review/${params.id}`
+      );
+      setGetReviews(response.data.getReview);
+    } catch (error) {
+      console.error("fetching products review is wrong", error);
+    }
+  };
   useEffect(() => {
     getProductPage();
+    readReviews();
   }, []);
   console.log("хувцасны сонгосон размер хэмжээг харах", choosedSize);
   console.log("хувцасны сонгосон тоо хэмжээг харах", quantity);
@@ -148,10 +169,25 @@ export default function DetailProductPage() {
           </Button>
           <div
             className="
-          flex flex-row"
+          flex flex-row items-center"
           >
             <p>Үнэлгээ</p>
-            <p className="text-blue-400 underline">бүгдийг харах</p>
+            <Collapsible
+              open={isOpen}
+              onOpenChange={setIsOpen}
+              className="w-[350px] space-y-2"
+            >
+              <div className="flex items-center justify-between space-x-4 px-4">
+                <CollapsibleTrigger asChild>
+                  <Button variant="ghost" className="">
+                    <p className="text-blue-400 underline">бүгдийг харах</p>
+                  </Button>
+                </CollapsibleTrigger>
+              </div>
+              <CollapsibleContent className="space-y-2">
+                {getReviews?.map((oneReview) => oneReview.reviewPoint)}
+              </CollapsibleContent>
+            </Collapsible>
           </div>
         </div>
       </div>
