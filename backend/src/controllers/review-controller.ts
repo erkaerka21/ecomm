@@ -24,9 +24,9 @@ export const createReview = async (req: Request, res: Response) => {
 export const getReview = async (req: Request, res: Response) => {
   const { productId } = req.params;
   try {
-    const getReview = await Review.find({ product: productId }).populate(
-      "user"
-    );
+    const getReview = await Review.find({ product: productId })
+      .populate("user")
+      .populate("product");
     res.status(200).json({ message: "reviewiig amjilttai harlaa.", getReview });
   } catch (error) {
     console.error("review unshihad yamar negen aldaa garlaa", error);

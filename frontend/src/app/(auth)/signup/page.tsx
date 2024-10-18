@@ -37,13 +37,16 @@ const Signup = () => {
       });
     }
     try {
-      const resp = await axios.post(`${uRL_AUTH_api}/signup`, {
-        firstname,
-        lastname,
-        email,
-        password,
-        phoneNumber,
-      });
+      const resp = await axios.post(
+        "http://localhost:9000/api/v1/auth/signup",
+        {
+          firstname,
+          lastname,
+          email,
+          password,
+          phoneNumber,
+        }
+      );
       if (resp.status === 201) {
         toast({
           description: "Хэрэглэгчийг амжилттай бүртгэлээ.",

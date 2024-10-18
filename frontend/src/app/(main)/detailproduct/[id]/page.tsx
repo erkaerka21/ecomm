@@ -17,6 +17,10 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import CreateReview from "@/app/components/create-review";
+import ReviewTable from "@/app/components/review-table";
+import { Table, TableBody } from "@/components/ui/table";
+import { Rate } from "antd";
+import _ from "lodash";
 
 export default function DetailProductPage() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -50,6 +54,7 @@ export default function DetailProductPage() {
   const getDiscountedPrice = (price: number, discount: number) => {
     return price - (price * discount) / 100;
   };
+
   const getProductPage = async () => {
     try {
       const response = await axios.get(
@@ -87,6 +92,9 @@ export default function DetailProductPage() {
       console.error("бүтээгдэхүүн сагслахад ямар нэгэн алдаа гарлаа", error);
     }
   };
+  const perTotalPrice = (a: number, b: number) => {
+    return a * b;
+  };
   const readReviews = async () => {
     try {
       const response = await axios.get(
@@ -97,16 +105,39 @@ export default function DetailProductPage() {
       console.error("fetching products review is wrong", error);
     }
   };
+  const niilberRate = _.sum(getReviews.map((review) => review.reviewPoint));
+  console.log("niilber ratiig harah", niilberRate);
+  const niitRatiinToo = getReviews.length;
+  console.log("niit ratiig harah", niitRatiinToo);
+  const dundajRating = (ratinguudSum: number, ratiinToo: number) => {
+    return ratinguudSum / ratiinToo;
+  };
+  console.log(
+    "dundaj ratingiig harah:",
+    dundajRating(
+      _.sum(getReviews.map((review) => review.reviewPoint)),
+      getReviews.length
+    )
+  );
+  const starRating = dundajRating(
+    _.sum(getReviews.map((review) => review.reviewPoint)),
+    getReviews.length
+  );
+  console.log("dundaj rating", starRating);
+  // const [starRating, setStarRating] = useState(Number);
+  // setStarRating(
+  //   dundajRating(
+  //     _.sum(getReviews.map((review) => review.reviewPoint)),
+  //     getReviews.length
+  //   )
+  // );
   useEffect(() => {
     getProductPage();
     readReviews();
   }, []);
-  console.log("хувцасны сонгосон размер хэмжээг харах", choosedSize);
-  console.log("хувцасны сонгосон тоо хэмжээг харах", quantity);
-  console.log("хэрэглэгчийн айдиг харах", user?._id);
   return (
     <div className="px-24 py-16">
-      <div className="flex flex-row gap-x-4 ">
+      <div className="flex flex-row gap-x-6">
         <div className="h-[90vh] w-[10%] grid grid-rows-4 gap-y-4 py-8">
           {productDetail.images.map((image) => (
             <img
@@ -121,7 +152,7 @@ export default function DetailProductPage() {
             className="rounded-2xl w-[100%] h-[100%] object-cover"
           />
         </div>
-        <div className="flex flex-col w-[45%] py-8 gap-y-3 items-start">
+        <div className="flex flex-col py-8 w-[45%] gap-y-3 items-start ml-4">
           <div>
             {productDetail.isNew === true && (
               <div className="text-sm font-bold border-2 border-blue-600 rounded-2xl px-[1vw] py-[0.5vh] text-center">
@@ -171,7 +202,11 @@ export default function DetailProductPage() {
             />
           </div>
           <div className="text-3xl font-bold">
-            {getDiscountedPrice(productDetail.price, productDetail.discount)}₮
+            {perTotalPrice(
+              getDiscountedPrice(productDetail.price, productDetail.discount),
+              quantity
+            )}
+            ₮
           </div>
           <Button
             className="bg-blue-600 rounded-3xl px-8 mt-3 text-lg"
@@ -181,23 +216,46 @@ export default function DetailProductPage() {
           </Button>
           <div
             className="
-          flex flex-row items-center"
+          flex flex-row items-center w-full"
           >
-            <p>Үнэлгээ</p>
             <Collapsible
               open={isOpen}
               onOpenChange={setIsOpen}
-              className="w-[350px] space-y-2"
+              className="w-4/5 space-y-2"
             >
-              <div className="flex items-center justify-between space-x-4 px-4">
+              <div className="flex items-center space-x-8">
+                <p>Үнэлгээ</p>
+                <p className="flex flex-row items-center font-semibold space-x-3">
+                  <Rate
+                    disabled
+                    allowHalf
+                    value={starRating}
+                    className="mr-2"
+                  />
+                  {starRating}
+                  <p>({getReviews.length})</p>
+                </p>
+
                 <CollapsibleTrigger asChild>
-                  <Button variant="ghost" className="">
-                    <p className="text-blue-400 underline">бүгдийг харах</p>
+                  <Button variant="ghost" className="flex flex-row items-start">
+                    <p className="text-blue-400 underline">дэлгэрэнгүй харах</p>
                   </Button>
                 </CollapsibleTrigger>
               </div>
               <CollapsibleContent className="">
-                {getReviews?.map((oneReview) => oneReview.reviewPoint)}
+                <Table>
+                  <TableBody>
+                    {getReviews?.map((oneReview: any) => (
+                      <ReviewTable
+                        rating={oneReview.reviewPoint}
+                        name={oneReview.user.firstname}
+                        comment={oneReview.comment}
+                        key={oneReview._id}
+                      />
+                    ))}
+                  </TableBody>
+                </Table>
+
                 <CreateReview />
               </CollapsibleContent>
             </Collapsible>
@@ -206,7 +264,7 @@ export default function DetailProductPage() {
       </div>
       <div>
         <h1 className="font-extrabold text-6xl">Холбоотой бараа</h1>
-        <div className="grid grid-cols-3 px-12 gap-x-6 gap-y-12 my-4">
+        <div className="grid grid-cols-3 px-12 gap-x-8 gap-y-12 my-3">
           {relatedProducts.map((relatedProduct: any) => (
             <ProductCart
               name={relatedProduct.name}
