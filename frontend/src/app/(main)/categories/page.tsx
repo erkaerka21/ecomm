@@ -10,7 +10,7 @@ const Categories = () => {
   const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
   type categories = any;
   const [getCategories, setGetCategories] = useState<categories>([]);
-  const [checkedItem, setCheckedItem] = useState([]);
+  // const [checkedItem, setCheckedItem] = useState([]);
   const getAllCategory = async () => {
     try {
       const response = await axios.get(
@@ -34,11 +34,11 @@ const Categories = () => {
       console.error("fetch products data error", error);
     }
   };
-  const checkItemSize = (e: any) => {
-    if (e.target.value.checked) {
-      console.log("checked item size", e.target.value);
-    }
-  };
+  // const checkItemSize = (e: any) => {
+  //   if (e.target.value.checked) {
+  //     console.log("checked item size", e.target.value);
+  //   }
+  // };
   useEffect(() => {
     getAllCategory();
     getAllProduct();
@@ -62,7 +62,7 @@ const Categories = () => {
           <div className="space-y-1">
             {sizes.map((size) => (
               <div className="flex flex-row  space-x-1 items-center">
-                <Checkbox value={size} key={size} onClick={checkItemSize} />
+                <Checkbox value={size} key={size} />
                 <p>{size}</p>
               </div>
             ))}
@@ -72,8 +72,9 @@ const Categories = () => {
       <div>
         <div className="grid grid-cols-3 gap-x-5 gap-y-10">
           {allProduct.map((product: any) => (
-            <Link href={`/detailproduct/${product._id}`} key={product._id}>
+            <Link href={`/detailproduct/${product._id}`}>
               <ProductCart
+                key={product._id}
                 name={product.name}
                 price={product.price}
                 image={product.images[0]}
@@ -82,6 +83,7 @@ const Categories = () => {
                   product.price,
                   product.discount
                 )}
+                id={product.id}
               />
             </Link>
           ))}

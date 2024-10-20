@@ -70,7 +70,7 @@ export default function DetailProductPage() {
   // const [intoCartData, setIntoCartData] = useState({});
   const createAndAddtoCart = async () => {
     try {
-      const respo = await axios.post(`http://localhost:9000/api/v1/cart/add`, {
+      const respo = await axios.post("http://localhost:9000/api/v1/cart/add", {
         userId: user?._id,
         productId: productId,
         quantity: quantity,
@@ -279,6 +279,7 @@ export default function DetailProductPage() {
                 relatedProduct.price,
                 relatedProduct.discount
               )}
+              key={relatedProduct._id}
             />
           ))}
         </div>

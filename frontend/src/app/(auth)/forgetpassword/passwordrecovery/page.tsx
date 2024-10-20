@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
-import { uRL_AUTH_api } from "@/utils/util";
 const Passwordrecovery = () => {
   const { toast } = useToast();
   const param = useSearchParams();

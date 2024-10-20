@@ -11,7 +11,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
-import { uRL_AUTH_api } from "@/utils/util";
 import { useRouter } from "next/navigation";
 
 const Signup = () => {

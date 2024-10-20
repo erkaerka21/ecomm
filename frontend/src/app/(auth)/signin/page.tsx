@@ -13,7 +13,6 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
-import { uRL_AUTH_api } from "@/utils/util";
 import { useUser } from "@/app/provider/user-provider";
 
 const Signin = () => {
