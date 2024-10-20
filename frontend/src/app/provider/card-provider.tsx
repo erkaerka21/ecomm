@@ -11,6 +11,7 @@ interface CardMy {
   user: string;
   products: [{ product: string; quantity: number; price: number }];
   totalAmount: number;
+  length: number;
 }
 interface ContextCard {
   myCard: CardMy | null;
@@ -64,6 +65,7 @@ const CardProvider = ({ children }: { children: React.ReactNode }) => {
         toast({
           description: "тус бүтээгдэхүүнийг сагснаас амжилттай устгалаа.",
         });
+        await fetchCard();
       }
     } catch (error) {
       console.error("something wrong in delete product from my card", error);

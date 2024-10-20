@@ -7,7 +7,7 @@ import { Heart } from "lucide-react";
 import { CiCirclePlus } from "react-icons/ci";
 import { CiCircleMinus } from "react-icons/ci";
 import { Button } from "@/components/ui/button";
-import ProductCart from "@/app/components/product-cart";
+import { ProductCart } from "@/app/components/product-cart";
 import { useUser } from "@/app/provider/user-provider";
 import { useToast } from "@/hooks/use-toast";
 import { useMyCard } from "@/app/provider/card-provider";
@@ -223,28 +223,31 @@ export default function DetailProductPage() {
               onOpenChange={setIsOpen}
               className="w-4/5 space-y-2"
             >
-              <div className="flex items-center space-x-8">
+              <div className="flex flex-row items-center space-x-8">
                 <p>Үнэлгээ</p>
-                <p className="flex flex-row items-center font-semibold space-x-3">
-                  <Rate
-                    disabled
-                    allowHalf
-                    value={starRating}
-                    className="mr-2"
-                  />
-                  {starRating}
-                  <p>({getReviews.length})</p>
-                </p>
+
+                {!getReviews ? (
+                  <p className="flex flex-row items-center font-semibold space-x-3">
+                    <Rate
+                      disabled
+                      allowHalf
+                      value={starRating}
+                      className="md:flex md:flex-row mr-2"
+                    />
+                    {starRating}
+                    <p>({getReviews.length})</p>
+                  </p>
+                ) : null}
 
                 <CollapsibleTrigger asChild>
-                  <Button variant="ghost" className="flex flex-row items-start">
+                  <Button variant="ghost" className="flex flex-row">
                     <p className="text-blue-400 underline">дэлгэрэнгүй харах</p>
                   </Button>
                 </CollapsibleTrigger>
               </div>
               <CollapsibleContent className="">
-                <Table>
-                  <TableBody>
+                <Table className="md:w-full">
+                  <TableBody className="md:w-full">
                     {getReviews?.map((oneReview: any) => (
                       <ReviewTable
                         rating={oneReview.reviewPoint}

@@ -38,10 +38,13 @@ const ShoppingCart = () => {
   //   deleteProductFromCart;
   // }, [myCard]);
   return (
-    <div className="flex flex-row justify-center">
+    <div className="flex flex-row justify-center py-16">
       <Card className="w-1/2">
         <CardHeader className="text-center my-3">
-          <CardTitle>1.Миний сагс()</CardTitle>
+          <CardTitle className="flex flex-row justify-center">
+            <p className="mr-3">1.Миний сагс</p>
+            <p className="font-normal text-gray-600">({myCard?.length})</p>
+          </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col items-center">
           {myCard?.map((product: any) => (
@@ -64,7 +67,7 @@ const ShoppingCart = () => {
             />
           ))}
         </CardContent>
-        <CardFooter className=" flex flex-col justify-center">
+        <CardFooter className=" flex flex-col justify-center space-y-7 my-3 mb-7">
           <CardContent className="w-[90%] flex flex-row justify-between">
             <p className="text-xl font-semibold">Нийт төлөх дүн : </p>
             <p className="text-2xl font-bold">{totalPrice}₮</p>

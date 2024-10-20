@@ -11,12 +11,12 @@ export default function ReviewTable({
   comment: string;
 }) {
   return (
-    <TableRow className="flex flex-col">
-      <TableCell className="flex flex-row w-3/5 justify-between">
+    <TableRow className=" md:w-full flex flex-col ">
+      <TableCell className="flex flex-row w-full justify-between">
         {name}
         <Rate disabled defaultValue={rating} />
       </TableCell>
-      <TableCell>{comment}</TableCell>
+      <TableCell className="md:w-full">{comment}</TableCell>
     </TableRow>
   );
 }

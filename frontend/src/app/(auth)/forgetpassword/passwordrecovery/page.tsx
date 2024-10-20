@@ -27,9 +27,12 @@ const Passwordrecovery = () => {
       });
       return;
     }
-    const response = await axios.post(`${uRL_AUTH_api}/recreate-password`, {
-      password,
-    });
+    const response = await axios.post(
+      "http://localhost:9000/api/v1/auth/recreate-password",
+      {
+        password,
+      }
+    );
     if (response.status === 200) {
       toast({ description: "Хэрэглэгчийн нууц үгийг амжилттай шинэчлэлээ." });
     }

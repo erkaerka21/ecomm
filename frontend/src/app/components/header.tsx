@@ -8,13 +8,27 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useUser } from "../provider/user-provider";
 import { FaRegUser } from "react-icons/fa";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { IoSettingsOutline } from "react-icons/io5";
 import { VscSignOut } from "react-icons/vsc";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { useMyCard } from "../provider/card-provider";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { FaCartArrowDown } from "react-icons/fa6";
+import { FaUserCog } from "react-icons/fa";
 
 const Header = () => {
   // const router = useRouter();
@@ -53,7 +67,16 @@ const Header = () => {
       <div className="flex flex-row items-center gap-x-5">
         <FaHeart className="text-white" />
         <Link href={"/shoppingcart"}>
-          <FaShoppingCart className="text-white" />
+          {!myCard ? (
+            <FaShoppingCart className="text-white" />
+          ) : (
+            <div className="relative">
+              <FaShoppingCart className="text-white" />
+              <p className=" h-4 w-4 absolute text-white bottom-2 left-3 bg-red-400 border border-red-400 rounded-full flex flex-row items-center justify-center text-xs font-semibold">
+                {myCard?.length}
+              </p>
+            </div>
+          )}
         </Link>
         {!user && (
           <div className="flex flex-row gap-x-2">
@@ -68,45 +91,41 @@ const Header = () => {
           </div>
         )}
         {user && (
-          <div className="flex flex-row gap-x-2">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="bg-transparent">
-                  <FaRegUser className="text-white text-xl" />
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="w-1/4">
-                <Table>
-                  <TableBody className="">
-                    <TableRow className="">
-                      <TableCell className="font-bold">
-                        {user.firstname}
-                      </TableCell>
-                      <TableCell className="flex flex-col items-center">
-                        <img
-                          src={user.profile_image}
-                          className="rounded-full w-[3vw]"
-                        />
-                      </TableCell>
-                    </TableRow>
-
-                    <TableRow className="">
-                      <TableCell>Хэрэглэгчийн мэдээлэл засах</TableCell>
-                      <TableCell className="flex flex-col items-center">
-                        <IoSettingsOutline />
-                      </TableCell>
-                    </TableRow>
-                    <TableRow className="" onClick={signOut}>
-                      <TableCell>Системээс гарах</TableCell>
-                      <TableCell className="flex flex-col items-center">
-                        <VscSignOut />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </DialogContent>
-            </Dialog>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="bg-transparent">
+                <FaRegUser className="text-white text-xl" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel className="flex flex-row justify-between items-center">
+                <p className="font-bold">{user.firstname}</p>
+                <img
+                  src={user.profile_image}
+                  className="rounded-full w-[3vw]"
+                />
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem className="flex flex-row justify-between items-center">
+                  <p>Хэрэглэгчийн мэдээлэл</p>
+                  <FaUserCog />
+                </DropdownMenuItem>
+                <DropdownMenuItem className="flex flex-row justify-between items-center">
+                  <p>Захиалгын түүх</p>
+                  <FaCartArrowDown />
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={signOut}
+                className="flex flex-row justify-between items-center"
+              >
+                <p>Системээс гарах</p>
+                <VscSignOut />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         )}
       </div>
     </div>

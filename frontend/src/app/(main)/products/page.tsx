@@ -1,7 +1,6 @@
 "use client";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import React, { useEffect, useState } from "react";
-import ProductCart from "@/app/components/product-cart";
+import { ProductCart, SpecialProductCart } from "@/app/components/product-cart";
 import axios from "axios";
 import Link from "next/link";
 
@@ -27,28 +26,65 @@ const Products = () => {
   };
   return (
     <div>
-      <div>
-        <img src="/zurag1.png" />
-        hfhfhf
-      </div>
+      <Link href={`/detailproduct/${allProduct[21]?._id}`}>
+        <div
+          style={{
+            backgroundImage: "url('/zurag1.png')",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            height: "70vh",
+            position: "relative",
+          }}
+        >
+          <div className="absolute bottom-10 left-40">
+            <p className="text-4xl font-semibold mb-5">
+              {allProduct[21]?.name}
+            </p>
+            <p className="text-7xl font-bold">{allProduct[21]?.price}₮</p>
+          </div>
+        </div>
+      </Link>
       <div className="grid grid-cols-4 px-12 gap-x-6 gap-y-12 my-4">
-        {allProduct.map((product: any, index: any) => (
-          <Link href={`/detailproduct/${product._id}`}>
-            <ProductCart
-              key={index}
-              name={product.name}
-              price={product.price}
-              image={product.images[0]}
-              id={product._id}
-              discount={product.discount}
-              priceWithDiscount={getDiscountedPrice(
-                product.price,
-                product.discount
+        {allProduct?.map((product: any, index: any) => {
+          return (
+            <>
+              {index === 6 || index === 7 ? (
+                <Link
+                  href={`/detailproduct/${product._id}`}
+                  className="col-span-2 row-span-9"
+                >
+                  <SpecialProductCart
+                    key={index}
+                    name={product.name}
+                    price={product.price}
+                    image={product.images[0]}
+                    id={product._id}
+                    discount={product.discount}
+                    priceWithDiscount={getDiscountedPrice(
+                      product.price,
+                      product.discount
+                    )}
+                  />
+                </Link>
+              ) : (
+                <Link href={`/detailproduct/${product._id}`}>
+                  <ProductCart
+                    key={index}
+                    name={product.name}
+                    price={product.price}
+                    image={product.images[0]}
+                    id={product._id}
+                    discount={product.discount}
+                    priceWithDiscount={getDiscountedPrice(
+                      product.price,
+                      product.discount
+                    )}
+                  />
+                </Link>
               )}
-              className={"index === 6 && `col-span-2 row-span-10`"}
-            />
-          </Link>
-        ))}
+            </>
+          );
+        })}
       </div>
     </div>
   );
