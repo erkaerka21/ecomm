@@ -65,8 +65,8 @@ const Signup = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="w-[30vw] my-[18vh]">
-        <Card className="justify-center">
+      <div className="w-[35vw] my-[18vh]">
+        <Card className="justify-center  px-10 pb-5">
           <CardHeader className="items-center">
             <CardTitle className="">Бүртгүүлэх</CardTitle>
           </CardHeader>

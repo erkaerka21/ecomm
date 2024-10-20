@@ -44,7 +44,7 @@ const Products = () => {
           </div>
         </div>
       </Link>
-      <div className="grid grid-cols-4 px-12 gap-x-6 gap-y-12 my-4">
+      <div className="grid grid-cols-4 px-12 gap-x-6 gap-y-12 my-4 py-10">
         {allProduct?.map((product: any, index: any) => {
           return (
             <>

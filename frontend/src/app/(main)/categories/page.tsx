@@ -50,7 +50,10 @@ const Categories = () => {
           <h1 className="font-bold">Ангилал</h1>
           <div className="space-y-1">
             {getCategories.map((category: any) => (
-              <div className="flex flex-row  space-x-1 items-center">
+              <div
+                className="flex flex-row  space-x-1 items-center"
+                key={category._id}
+              >
                 <Checkbox value={category.name} key={category.name} />
                 <p>{category.name}</p>
               </div>
@@ -61,7 +64,7 @@ const Categories = () => {
           <h1 className="font-bold">Хэмжээ</h1>
           <div className="space-y-1">
             {sizes.map((size) => (
-              <div className="flex flex-row  space-x-1 items-center">
+              <div className="flex flex-row  space-x-1 items-center" key={size}>
                 <Checkbox value={size} key={size} />
                 <p>{size}</p>
               </div>

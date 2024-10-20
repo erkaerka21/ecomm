@@ -184,6 +184,7 @@ export default function DetailProductPage() {
                   }`}
                   id={size}
                   onClick={() => setChoosedSize(size)}
+                  key={size}
                 >
                   {size}
                 </p>

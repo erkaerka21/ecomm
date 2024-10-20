@@ -96,8 +96,8 @@ const ForgetPassword = () => {
   return (
     <div className="flex justify-center">
       {step === 1 && (
-        <div className="w-[30vw] my-[18vh]">
-          <Card className="justify-center">
+        <div className="w-[35vw] my-[18vh]">
+          <Card className="justify-center  px-10 pb-5">
             <CardHeader className="items-center">
               <CardTitle className="">Нууц үг сэргээх</CardTitle>
             </CardHeader>

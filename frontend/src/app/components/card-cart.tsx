@@ -14,7 +14,6 @@ import { MdDeleteForever } from "react-icons/md";
 const CardsCart = ({
   image,
   productName,
-  productPrice,
   productQuantity,
   perTotalPrice,
 
@@ -22,7 +21,6 @@ const CardsCart = ({
 }: {
   image: string;
   productName: string;
-  productPrice: number;
   productQuantity: number;
   perTotalPrice: number;
 
