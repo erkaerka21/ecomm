@@ -32,7 +32,7 @@ const ForgetPassword = () => {
     console.log("emailiig harah", email);
     try {
       const response = await axios.post(
-        "http://localhost:9000/api/v1/auth/forgetpassword",
+        `http://localhost:9000/api/v1/auth/forgetpassword`,
         {
           email: email,
         }
@@ -60,7 +60,7 @@ const ForgetPassword = () => {
     if (value.length === 4) {
       try {
         const respo = await axios.post(
-          "http://localhost:9000/api/v1/auth/verify-rndmotpcode",
+          `http://localhost:9000/api/v1/auth/verify-rndmotpcode`,
           { email, randomOTPcode: value }
         );
         if (respo.status === 200) {
