@@ -10,6 +10,7 @@ import productRouter from "./routes/product-route";
 import categoryRouter from "./routes/category-route";
 import cartRouter from "./routes/cart-route";
 import reviewRouter from "./routes/review-route";
+import orderRouter from "./routes/order-route";
 dotenv.config();
 const PORT = process.env.PORT;
 const mongoUrl = process.env.URL || "";
@@ -23,6 +24,7 @@ app.use("/api/v1/products", productRouter);
 app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/cart", cartRouter);
 app.use("/api/v1/review", reviewRouter);
+app.use("/api/v1/order", orderRouter);
 
 const transporter = nodemailer.createTransport({
   service: "Gmail",
