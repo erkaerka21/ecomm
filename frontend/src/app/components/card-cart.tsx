@@ -9,8 +9,6 @@ import {
 import { CiCirclePlus } from "react-icons/ci";
 import { CiCircleMinus } from "react-icons/ci";
 import { useMyCard } from "../provider/card-provider";
-import { useUser } from "../provider/user-provider";
-import { useToast } from "@/hooks/use-toast";
 import { MdDeleteForever } from "react-icons/md";
 
 const CardsCart = ({
@@ -30,14 +28,7 @@ const CardsCart = ({
 
   productId: string;
 }) => {
-  const { toast } = useToast();
-  const {
-    myCard,
-    setMyCard,
-    deleteProductFromCart,
-    changeCartsProductsQuantity,
-  } = useMyCard();
-  const { user } = useUser();
+  const { deleteProductFromCart, changeCartsProductsQuantity } = useMyCard();
   // const changeQuantity = async (
 
   // ) => {

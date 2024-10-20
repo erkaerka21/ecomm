@@ -18,11 +18,11 @@ export const ProductCart = ({
   discount: number;
   priceWithDiscount: number;
 }) => {
-  const [wishListiinToo, setWishListiinToo] = useState(0);
-  const wishlist = () => {
-    // localStorage.setItem("wishlist", wishlist);
-    console.log("productiin id iig harah", wishListiinToo);
-  };
+  // const [wishListiinToo, setWishListiinToo] = useState(0);
+  // const wishlist = () => {
+  // localStorage.setItem("wishlist", wishlist);
+  //   console.log("productiin id iig harah", wishListiinToo);
+  // };
   return (
     <div className="">
       <Card className="border-gray-400 border">
@@ -74,11 +74,11 @@ export const SpecialProductCart = ({
   discount: number;
   priceWithDiscount: number;
 }) => {
-  const [wishListiinToo, setWishListiinToo] = useState(0);
-  const wishlist = () => {
-    // localStorage.setItem("wishlist", wishlist);
-    console.log("productiin id iig harah", wishListiinToo);
-  };
+  // const [wishListiinToo, setWishListiinToo] = useState(0);
+  // const wishlist = () => {
+  //   localStorage.setItem("wishlist", wishlist);
+  //   console.log("productiin id iig harah", wishListiinToo);
+  // };
   return (
     <div className="col-span-2 row-span-9">
       <Card className="border-gray-400 border">

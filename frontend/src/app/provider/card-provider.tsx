@@ -35,8 +35,7 @@ export const CardContext = createContext<ContextCard>({
 const CardProvider = ({ children }: { children: React.ReactNode }) => {
   const [myCard, setMyCard] = useState<CardMy | null>(null);
   const [token, setToken] = useState("");
-  const { user } = useUser();
-  const params = useParams();
+
   const fetchCard = async () => {
     try {
       const token = localStorage.getItem("token");

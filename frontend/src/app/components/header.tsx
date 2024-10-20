@@ -8,10 +8,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useUser } from "../provider/user-provider";
 import { FaRegUser } from "react-icons/fa";
-import { IoSettingsOutline } from "react-icons/io5";
 import { VscSignOut } from "react-icons/vsc";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
+
 import { useMyCard } from "../provider/card-provider";
 import {
   DropdownMenu,
@@ -19,12 +17,7 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { FaCartArrowDown } from "react-icons/fa6";

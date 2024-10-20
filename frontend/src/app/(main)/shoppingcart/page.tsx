@@ -11,7 +11,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import _ from "lodash";
-import { useEffect } from "react";
 export const getDiscountedPrice = (price: number, discount: number) => {
   return price - (price * discount) / 100;
 };
