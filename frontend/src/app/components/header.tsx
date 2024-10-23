@@ -52,7 +52,7 @@ const Header = () => {
       <label className="relative flex flex-row items-center">
         <IoSearch className="h-[4vh] text-white absolute left-2"></IoSearch>
         <Input
-          className="placeholder-gray-200 bg-gray-700 text-white"
+          className=" placeholder-gray-200 bg-gray-700 text-white"
           placeholder="Бүтээгдэхүүн хайх"
         />
       </label>
